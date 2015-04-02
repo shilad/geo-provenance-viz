@@ -1,0 +1,85 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+
+
+
+
+.top {
+   padding: 0px 15px 30px 15px;
+   margin-bottom: 30px;
+   color: inherit;
+}
+
+
+body {
+   color: #888;
+}
+
+h1,h2,h3,h4,h5 {
+   color: black;
+}
+
+a {
+   color: #888;
+   text-decoration: underline;
+}
+
+a.active {
+   font-weight: 500;
+   color: black;
+}
+
+b {
+   font-weight: 500;
+   color: black;
+}
+.map-table {
+   width: 100%;
+   height: 100%;
+}
+
+.map-canvas, .legend-box, .legend-label, .legend-spacer {
+   background-color: black;
+   margin: 0;
+   padding: 0;
+   border: none;
+}
+.map-canvas {
+   height: 100%;
+   width: 90%;
+   padding: 0;
+}
+.legend-spacer {
+   width: 10px;
+}
+.legend-box {
+   width: 20px;
+   border: 1px solid #555;
+   padding: 0;
+}
+.legend-label {
+   padding: 10px;
+   line-height: 110%;
+}
+.legend-box.lb1 { background-color: rgb(40, 82, 162); }
+.legend-box.lb2 { background-color: rgb(51, 115, 181); }
+.legend-box.lb3 { background-color: rgb(93, 149, 199); }
+.legend-box.lb4 { background-color: rgb(147, 185, 219); }
+.legend-box.lb5 { background-color: rgb(206, 221, 238); }
+.legend-box.lb6 { background-color: rgb(255, 255, 255); }
+.legend-box.lb7 { background-color: rgb(204, 204, 204); }
+
+.itemized-data tbody {
+   font-size: 11px;
+}
+
+
+
+
+
+
