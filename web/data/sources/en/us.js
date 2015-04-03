@@ -1,12 +1,4 @@
-var ITEMIZED_DATA = {
-    "countries" : [
-        ["us", 345193],
-        ["uk", 45393],
-        ["ca", 10324],
-        ["au", 3242],
-        ["in", 1043],
-        ["other", 97342]
-    ],
+var GP_ITEMIZED_DATA = {
     "articles" : [
         ["United States", 324110],
         ["California", 84232],

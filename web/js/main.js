@@ -1,36 +1,37 @@
 
-var iso2countries = {};
-var countries = [];
-var counts = [];
-var entity = null;
+window.GP = window.GP || {};
 
+GP.iso2countries = {};
+GP.countries = [];
+GP.counts = [];
+GP.entity = null;
 
 function init_page(entity) {
-    window.entity = entity;
+    GP.entity = entity;
 
-    countries = COUNTRY_DATA;
-    for (var i = 0; i < countries.length; i++) {
-        iso2countries[countries[i].iso] = countries[i];
-    }
-    console.log('loaded ' + iso2countries.length + ' countries');
+    GP.countries = GP_COUNTRY_DATA;
+    GP.countries.forEach(function (c) {
+        GP.iso2countries[c.iso] = c;
+    });
+    console.log('loaded ' + GP.countries.length + ' countries');
 
     if (entity == 'editor') {
-        counts = EDITOR_DATA;
+        GP.counts = GP_EDITOR_DATA;
     } else if (entity == 'publisher') {
-        counts = PUBLISHER_DATA;
+        GP.counts = GP_PUBLISHER_DATA;
     } else {
         alert("unknown entity: " + entity);
     }
-    prepare_data();
-    visualize();
+    GP.visualize("en", "au");
 }
 
 
-function countryName2Iso(name) {
+GP.name2Iso = function(name) {
     if (name == 'all') {
         return 'all';
     }
     var country = null;
+    var countries = GP.countries;
     for (var i = 0; i < countries.length; i++) {
         if (countries[i].name.trim().toLowerCase() == name.trim().toLowerCase()) {
             country = countries[i];
@@ -43,26 +44,11 @@ function countryName2Iso(name) {
         alert('no known country with name ' + name);
         return null;
     }
-}
+};
 
-function visualize() {
-    var lang = "en";
-    var article_name = "all";
-    var publisher_name = "all";
-    var article_iso = countryName2Iso(article_name);
-    var publisher_iso = countryName2Iso(publisher_name);
-    if (!article_iso || !publisher_iso) {
-        return;
-    }
-
-    // whether to group results by source country (default) or article country
-    var by_publisher = (publisher_iso == 'all' || article_iso != 'all');
-
-    console.log(article_iso + ', ' + publisher_iso + ', ' + by_publisher);
-
-    var total = 0;
+GP.get_data = function(lang, article_iso) {
     var filtered = {};
-
+    var counts = GP.counts;
     for (var i = 0; i < counts.length; i++) {
         var row = counts[i];
         var l = row[0];
@@ -78,52 +64,24 @@ function visualize() {
         if (article_iso != 'all' && cc1 != article_iso) {
             continue;
         }
-        if (publisher_iso != 'all' && cc2 != publisher_iso) {
-            continue;
-        }
-        var key = (by_publisher ? cc2 : cc1).toUpperCase();
-        if (filtered[key]) {
-            filtered[key] += n;
-        } else {
-            filtered[key] = n;
-        }
-        total += n;
+        var key = cc2.toUpperCase();
+        filtered[key] = (filtered[key]) ? filtered[key] : 0 + n;
     }
 
-    var label = "";
-    if (lang == 'all') {
-        label += 'All WP language editions';
-    } else {
-        label += 'WP-' + lang + ' language edition';
-    }
+    return filtered;
 
-    if (article_iso == 'all') {
-        label += ', all geospatial articles';
-    } else {
-        label += ', articles in ' + article_name;
-    }
+};
 
-    if (publisher_iso == 'all') {
-        label += ', ' + entity + 's from all countries';
-    } else {
-        label += ', ' + entity + 's from ' + publisher_name;
-    }
+GP.visualize = function(lang, article_iso) {
 
-    var div = $("div.results:first-of-type");
-    div.find("h4").text(label);
+    var filtered = GP.get_data(lang, article_iso);
+    console.log(filtered);
+    var total = 0;
+    for (var c in filtered) { total += filtered[c]; }
 
-    var provenance = {};
     var colors = {};
-
-    var rows = "";
-    var ordered_countries = keys_sorted_by_value(filtered);
-    for (var i = 0; i < ordered_countries.length; i++) {
-        var c = ordered_countries[i];
-        var cn = iso2countries[c.toLowerCase()].name;
-        var n = filtered[c];
-        var v = 1.0 * n / total;
-        var row = "<tr><td>" + cn + "</td><td>" + addCommas(n) + "</td><td>" + (100.0 * v).toFixed(2) + "%</td></tr>";
-        rows += row;
+    for (var c in filtered) {
+        var v = 1.0 * filtered[c] / total;
 
         var color;
         if (isNaN(v)) {
@@ -145,10 +103,9 @@ function visualize() {
         } else {
             color = "#004694";
         }
-        colors[c] = color;
+        colors[c.toUpperCase()] = color;
     }
-    div.find("table.data tbody").html(rows);
-    console.log(provenance);
+    console.log(colors);
 
 
     var map_params = {
@@ -169,7 +126,7 @@ function visualize() {
             initial: {
                 fill: 'white',
                 "fill-opacity": 1,
-                stroke: '#000',
+                stroke: '#000'
             },
             hover: {
                 "fill-opacity": 0.8
@@ -182,34 +139,32 @@ function visualize() {
             }
         },
         onRegionClick : function(e, iso, isSelected) {
-            $("input[name='article']").val(iso2countries[iso.toLowerCase()].name);
+            $("input[name='article']").val(GP.iso2countries[iso.toLowerCase()].name);
             $(".jvectormap-label").remove();
             visualize();
         }
     };
     if (article_iso != 'all') {
-        map_params.selectedRegions = article_iso.toUpperCase();
-    }
-    if (publisher_iso!= 'all') {
-        map_params.selectedRegions = publisher_iso.toUpperCase();
+        //map_params.selectedRegions = article_iso.toUpperCase();
     }
     var map = $('.map-canvas:first-of-type').empty().vectorMap(map_params);
-    var caption = '';
-    if (entity == 'publisher' && by_publisher) {
-        caption = '# citations from sources in country';
-    } else if (entity == 'publisher' && !by_publisher) {
-        caption = '# citations in articles about country';
-    } else if (entity == 'editor' && by_publisher) {
-        caption = '# edits by editors in country';
-    } else if (entity == 'editor' && !by_publisher) {
-        caption = '# edits for articles about country';
-    } else {
-        console.log("ARGGHHHH!");
-    }
-    $(".results table.data thead > tr > th:nth-child(2)").html(caption);
 
     return false;
-}
+};
+
+GP.update_itemized_lists = function(lang, article_iso, filtered) {
+    var ordered_countries = GP.keys_sorted_by_value(filtered);
+    var total = 0;
+    for (var c in filtered) { total += filtered[c]; }
+
+    var cn = GP.iso2countries[c.toLowerCase()].name;
+    var n = filtered[c];
+    var v = 1.0 * n / total;
+    var row = "<tr><td>" + cn + "</td><td>" + GP.addCommas(n) + "</td><td>" + (100.0 * v).toFixed(2) + "%</td></tr>";
+    rows += row;
+
+};
+
 
 
 
