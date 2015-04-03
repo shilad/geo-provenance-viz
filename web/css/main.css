@@ -39,8 +39,24 @@ b {
    color: black;
 }
 .map-table {
+   min-width: 600px;
    width: 100%;
-   height: 100%;
+}
+
+@media (max-width: 640px) {
+   .map-table { height: 300px; }
+}
+
+@media (min-width: 640px) and (max-width: 800px) {
+   .map-table { height: 350px; }
+}
+
+@media (min-width: 800px) and (max-width: 1024px) {
+   .map-table { height: 400px; }
+}
+
+@media (min-width: 1024px) {
+   .map-table { height: 450px; }
 }
 
 .map-canvas, .legend-box, .legend-label, .legend-spacer {
@@ -58,21 +74,27 @@ b {
    width: 10px;
 }
 .legend-box {
+   height: 11.11%;
    width: 20px;
    border: 1px solid #555;
    padding: 0;
 }
 .legend-label {
-   padding: 10px;
+   font-size: 12px;
+   text-align: left;
+   padding: 5px;
    line-height: 110%;
 }
-.legend-box.lb1 { background-color: rgb(40, 82, 162); }
-.legend-box.lb2 { background-color: rgb(51, 115, 181); }
-.legend-box.lb3 { background-color: rgb(93, 149, 199); }
-.legend-box.lb4 { background-color: rgb(147, 185, 219); }
-.legend-box.lb5 { background-color: rgb(206, 221, 238); }
-.legend-box.lb6 { background-color: rgb(255, 255, 255); }
-.legend-box.lb7 { background-color: rgb(204, 204, 204); }
+
+.legend-box.lb1 { background-color: rgb(0, 70, 148); }
+.legend-box.lb2 { background-color: rgb(48, 91, 162); }
+.legend-box.lb3 { background-color: rgb(51, 115, 181); }
+.legend-box.lb4 { background-color: rgb(93, 149, 199); }
+.legend-box.lb5 { background-color: rgb(147, 185, 219); }
+.legend-box.lb6 { background-color: rgb(206, 221, 238); }
+.legend-box.lb7 { background-color: rgb(230, 238, 246); }
+.legend-box.lb8 { background-color: rgb(255, 255, 255); }
+.legend-box.lb9 { background-color: rgb(204, 204, 204); }
 
 .itemized-data tbody {
    font-size: 11px;

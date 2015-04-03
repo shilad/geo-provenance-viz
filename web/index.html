@@ -59,33 +59,41 @@
             <table class="map-table">
                 <tbody>
                 <tr>
-                    <td rowspan="7" class="map-canvas"></td>
-                    <td rowspan="7" class="legend-spacer"></td>
+                    <td rowspan="9" class="map-canvas"></td>
+                    <td rowspan="9" class="legend-spacer"></td>
                     <td class="legend-box lb1">&nbsp;&nbsp;&nbsp;</td>
-                    <td class="legend-label">50%</td>
+                    <td class="legend-label">&ge;&nbsp;50%</td>
                 </tr>
                 <tr>
                     <td class="legend-box lb2"></td>
-                    <td class="legend-label">20%</td>
+                    <td class="legend-label">&lt;&nbsp;50%</td>
                 </tr>
                 <tr>
                     <td class="legend-box lb3"></td>
-                    <td class="legend-label">10%</td>
+                    <td class="legend-label">&lt;&nbsp;20%</td>
                 </tr>
                 <tr>
                     <td class="legend-box lb4"></td>
-                    <td class="legend-label">5%</td>
+                    <td class="legend-label">&lt;&nbsp;10%</td>
                 </tr>
                 <tr>
                     <td class="legend-box lb5"></td>
-                    <td class="legend-label">2%</td>
+                    <td class="legend-label">&lt;&nbsp;5%</td>
                 </tr>
                 <tr>
                     <td class="legend-box lb6"></td>
-                    <td class="legend-label">0%</td>
+                    <td class="legend-label">&lt;&nbsp;2%</td>
                 </tr>
                 <tr>
                     <td class="legend-box lb7"></td>
+                    <td class="legend-label">&lt;&nbsp;1%</td>
+                </tr>
+                <tr>
+                    <td class="legend-box lb8"></td>
+                    <td class="legend-label">&nbsp;&nbsp;&nbsp;0%</td>
+                </tr>
+                <tr>
+                    <td class="legend-box lb9"></td>
                     <td class="legend-label">no data</td>
                 </tr>
                 </tbody>
@@ -150,11 +158,6 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-<script>
-    var w = $(".map-table").width();
-    var h = Math.max(200, w * 0.5);
-    $(".map-table").height(h);
-</script>
 
 
 <script src="js/vendor/bootstrap.min.js"></script>

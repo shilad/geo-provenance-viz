@@ -94,7 +94,7 @@ function countryName2Iso(name) {
 
 function visualize() {
     var lang = "en";
-    var article_name = "United States";
+    var article_name = "all";
     var publisher_name = "all";
     var article_iso = countryName2Iso(article_name);
     var publisher_iso = countryName2Iso(publisher_name);
@@ -160,6 +160,7 @@ function visualize() {
     div.find("h4").text(label);
 
     var provenance = {};
+    var colors = {};
 
     var rows = "";
     var ordered_countries = keys_sorted_by_value(filtered);
@@ -167,29 +168,47 @@ function visualize() {
         var c = ordered_countries[i];
         var cn = iso2countries[c.toLowerCase()].name;
         var n = filtered[c];
-        provenance[c] = 1.0 * n / total;
-        var p = 100.0 * provenance[c];
-        var row = "<tr><td>" + cn + "</td><td>" + addCommas(n) + "</td><td>" + p.toFixed(2) + "%</td></tr>";
+        var v = 1.0 * n / total;
+        var row = "<tr><td>" + cn + "</td><td>" + addCommas(n) + "</td><td>" + (100.0 * v).toFixed(2) + "%</td></tr>";
         rows += row;
+
+        var color;
+        if (isNaN(v)) {
+            color = "#CCCCCC";
+        } else if (v < 0.002) {
+            color = "#FFFFFF";
+        } else if (v < 0.01) {
+            color = "#E6EEF6";
+        } else if (v <= 0.02) {
+            color = "#CEDDEE";
+        } else if (v <= 0.05) {
+            color = "#93B9DB";
+        } else if (v <= 0.10) {
+            color = "#5D95C7";
+        } else if (v <= 0.20) {
+            color = "#3373B5";
+        } else if (v <= 0.50) {
+            color = "#305BA2";
+        } else {
+            color = "#004694";
+        }
+        colors[c] = color;
     }
     div.find("table.data tbody").html(rows);
     console.log(provenance);
+
 
     var map_params = {
         backgroundColor: '#000',
         map: 'world_mill_en',
         series: {
             regions: [{
-                min: 0.0,
-                max: 0.65,
-                values: provenance,
-                scale: ['#FFFFFF', '#0071BB'],
-                normalizeFunction: function (value) {
-                    return Math.pow(value, 0.333);
-                }
+                min: 0,
+                max: 5,
+                values: colors
             }]
         },
-        onRegionLabelShow   : function(e, el, code){
+        onRegionTipShow   : function(e, el, code){
             var p = (100.0 * filtered[code] / total).toFixed(2);
             el.html(el.html()+' ('+p+'%)');
         },
@@ -216,10 +235,10 @@ function visualize() {
         }
     };
     if (article_iso != 'all') {
-        //map_params.selectedRegions = article_iso.toUpperCase();
+        map_params.selectedRegions = article_iso.toUpperCase();
     }
     if (publisher_iso!= 'all') {
-        //map_params.selectedRegions = publisher_iso.toUpperCase();
+        map_params.selectedRegions = publisher_iso.toUpperCase();
     }
     var map = $('.map-canvas:first-of-type').empty().vectorMap(map_params);
     var caption = '';
