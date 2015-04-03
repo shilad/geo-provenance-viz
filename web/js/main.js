@@ -4,48 +4,16 @@ var countries = [];
 var counts = [];
 var entity = null;
 
-function process_data() {
+
+function init_page(entity) {
+    window.entity = entity;
+
+    countries = COUNTRY_DATA;
     for (var i = 0; i < countries.length; i++) {
         iso2countries[countries[i].iso] = countries[i];
     }
     console.log('loaded ' + iso2countries.length + ' countries');
 
-    var langs = [];
-    var lang_obj = {};
-
-    var observed_countries = [];
-    var country_obj = {};
-
-    for (var i = 0; i < counts.length; i++) {
-        var lang = counts[i][0];
-        if (!lang_obj[lang]) {
-            langs.push(lang);
-            lang_obj[lang] = 1;
-        }
-
-        var containing_iso = counts[i][1];
-        var containing = iso2countries[containing_iso];
-        if (containing && !country_obj[containing_iso]) {
-            country_obj[containing_iso] = 1;
-            observed_countries.push(containing.name);
-        }
-    }
-
-    langs.sort();
-    observed_countries.sort();
-    langs.splice(0, 0, 'all');
-    observed_countries.splice(0, 0, 'all');
-
-    console.log('loaded ' + langs.length + ' langs');
-    console.log('loaded ' + observed_countries.length + ' observed countries');
-
-    visualize();
-}
-
-
-function init_page(entity) {
-    window.entity = entity;
-    countries = COUNTRY_DATA;
     if (entity == 'editor') {
         counts = EDITOR_DATA;
     } else if (entity == 'publisher') {
@@ -53,26 +21,10 @@ function init_page(entity) {
     } else {
         alert("unknown entity: " + entity);
     }
-    process_data();
+    prepare_data();
+    visualize();
 }
 
-/**
- * From http://www.mredkj.com/javascript/numberFormat.html
- * @param nStr
- * @returns {*}
- */
-function addCommas(nStr)
-{
-    nStr += '';
-    x = nStr.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-    return x1 + x2;
-}
 
 function countryName2Iso(name) {
     if (name == 'all') {
@@ -85,11 +37,12 @@ function countryName2Iso(name) {
             break;
         }
     }
-    if (!country) {
+    if (country) {
+        return country.iso;
+    } else {
         alert('no known country with name ' + name);
         return null;
     }
-    return country.iso;
 }
 
 function visualize() {
@@ -256,30 +209,6 @@ function visualize() {
     $(".results table.data thead > tr > th:nth-child(2)").html(caption);
 
     return false;
-}
-
-/**
- * From http://stackoverflow.com/questions/5199901/how-to-sort-an-associative-array-by-its-values-in-javascript
- * @param obj
- * @returns {Array}
- */
-function keys_sorted_by_value(obj) {
-    var tuples = [];
-
-    for (var key in obj) tuples.push([key, obj[key]]);
-
-    tuples.sort(function(a, b) {
-        a = a[1];
-        b = b[1];
-
-        return a < b ? +1 : (a > b ? -1 : 0);
-    });
-
-    var keys = [];
-    for (var i = 0; i < tuples.length; i++) {
-        keys.push(tuples[i][0]);
-    }
-    return keys;
 }
 
 
