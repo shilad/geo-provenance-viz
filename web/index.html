@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="js/vendor/jquery-jvectormap-2.0.2.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="css/main.css">
 
-    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.js"></script>
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -34,15 +34,15 @@
     <div class="row">
         <h1 class="col-md-12">Where do English Wikipedia's citations come from?</h1>
         <p class="col-md-12">
-            Show: <a class="localness-link" href="#">localness</a> / <a class="geoprovenance-link active" href="#">geoprovenance</a> of
-            <a class="editors-link" href="#">editors</a> / <a class="sources-link active" href="#">sources</a> <br/>
+            Show: <a class="mode ajax" href="?mode=localness">localness</a> / <a class="mode ajax" href="?mode=geoprovenance">geoprovenance</a> of
+            <a class="mode ajax" href="?entity=editors">editors</a> / <a class="mode ajax" href="?entity=sources">sources</a> <br/>
             Select Wikipedia language edition:
-            <a class="language-edition">All</a>,
-            <a class="language-edition active">English</a>,
-            <a class="language-edition">Swedish</a>,
-            <a class="language-edition">Dutch</a>,
-            <a class="language-edition">German</a>,
-            <a class="language-edition">more..</a>
+            <a class="lang ajax" href="?lang=all">All</a>,
+            <a class="lang ajax" href="?lang=en">English</a>,
+            <a class="lang ajax" href="?lang=sv">Swedish</a>,
+            <a class="lang ajax" href="?lang=nl">Dutch</a>,
+            <a class="lang ajax" href="?lang=de">German</a>,
+            <a class="lang ajax" href="?lang=more">more..</a>
         </p>
     </div>
 
@@ -128,13 +128,33 @@
         </div>
         <div class="col-md-4">
             <h4>Most viewed articles</h4>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            <table class="table table-condensed itemized-articles">
+                <thead>
+                <tr>
+                    <th>article</th>
+                    <th>views</th>
+                    <th>%</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr><td>Loading...</td></tr>
+                </tbody>
+            </table>
         </div>
         <div class="col-md-4">
             <h4>Most cited sources</h4>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            <table class="table table-condensed itemized-sources">
+                <thead>
+                <tr>
+                    <th>source</th>
+                    <th>citations</th>
+                    <th>%</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr><td>Loading...</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -145,11 +165,10 @@
     </footer>
 </div> <!-- /container -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-
-
+<script src="js/vendor/jquery-1.11.2.min.js"></script>
 <script src="js/vendor/bootstrap.min.js"></script>
+<script src="js/vendor/jquery-deparam.js"></script>
+<script src="js/vendor/history.min.js"></script>
 
 <script src="js/vendor/jquery-jvectormap-2.0.2.min.js"></script>
 <script src="js/vendor/jquery-jvectormap-world-mill-en.js"></script>

@@ -23,6 +23,8 @@ function init_page(entity) {
         alert("unknown entity: " + entity);
     }
     GP.visualize("en", "au");
+    GP.initHistory();
+    GP.onUrlChange();   // manually trigger a refresh
 }
 
 
@@ -73,9 +75,7 @@ GP.get_data = function(lang, article_iso) {
 };
 
 GP.visualize = function(lang, article_iso) {
-
     var filtered = GP.get_data(lang, article_iso);
-    console.log(filtered);
     var total = 0;
     for (var c in filtered) { total += filtered[c]; }
 
@@ -105,8 +105,6 @@ GP.visualize = function(lang, article_iso) {
         }
         colors[c.toUpperCase()] = color;
     }
-    console.log(colors);
-
 
     var map_params = {
         backgroundColor: '#000',
@@ -138,10 +136,15 @@ GP.visualize = function(lang, article_iso) {
             selectedHover: {
             }
         },
-        onRegionClick : function(e, iso, isSelected) {
-            $("input[name='article']").val(GP.iso2countries[iso.toLowerCase()].name);
+        onRegionClick : function(ev, iso) {
+            console.log('iso is ' + iso);
+            iso = iso.toLowerCase();
+            if (iso == 'all' || iso in GP.iso2countries) {
+                GP.updateUrl({ 'country' : iso })
+            } else {
+                alert('unknown country: ' + iso);
+            }
             $(".jvectormap-label").remove();
-            visualize();
         }
     };
     if (article_iso != 'all') {
@@ -149,24 +152,133 @@ GP.visualize = function(lang, article_iso) {
     }
     var map = $('.map-canvas:first-of-type').empty().vectorMap(map_params);
 
+    // Queue up loading of itemized data.
+    // This is done by hand instead of using jQuery to prevent an ajax call
+    $(".itemized-data tbody").html("<tr><td>Loading...</td></tr>");
+    $("#itemized-data-script").remove();
+
+    var script = document.createElement("script");
+    script.src = 'data/sources/' + lang + '/' + article_iso + '.js';
+    script.id = 'itemized-data-script';
+    script.onload = function () {
+        GP.update_itemized_lists(lang, article_iso, filtered);
+    };
+    document.head.appendChild(script);
+
     return false;
 };
 
 GP.update_itemized_lists = function(lang, article_iso, filtered) {
-    var ordered_countries = GP.keys_sorted_by_value(filtered);
-    var total = 0;
-    for (var c in filtered) { total += filtered[c]; }
 
-    var cn = GP.iso2countries[c.toLowerCase()].name;
-    var n = filtered[c];
-    var v = 1.0 * n / total;
-    var row = "<tr><td>" + cn + "</td><td>" + GP.addCommas(n) + "</td><td>" + (100.0 * v).toFixed(2) + "%</td></tr>";
-    rows += row;
+    var data= GP_ITEMIZED_DATA;
 
+    // Construct the country data
+    data.countries = [];
+    var sorted = GP.keys_sorted_by_value(filtered);
+    var otherTotal = 0;
+    for (var i = 0; i < sorted.length; i++) {
+        var c = sorted[i];
+        var n = filtered[c];
+        if ( i < 10) {
+            data.countries.push([c, n]);
+        } else {
+            otherTotal += n;
+        }
+    }
+    if (otherTotal > 0) data.countries.push(['other', otherTotal]);
+
+
+    $(".itemized-data .itemized-countries tbody").html(
+        GP.make_itemized_rows(data.countries, null)
+    );
+    $(".itemized-data .itemized-articles tbody").html(
+        GP.make_itemized_rows(data.articles, null)
+    );
+    $(".itemized-data .itemized-sources tbody").html(
+        GP.make_itemized_rows(data.domains, function (domain) { return 'http://' + domain; })
+    );
+};
+
+GP.make_itemized_rows = function(list, linker) {
+    var total = 0.0;
+    for (var i = 0; i < list.length; i++) {
+        total += list[i][1];
+    }
+    var rows = '';
+    for (var i = 0; i < list.length; i++) {
+        var name = list[i][0];
+        var n = list[i][1];
+        var p = (100.0 * n / total).toFixed(2) + '%';
+        var desc;
+        if (linker) {
+            desc = '<a href=' + linker(name) + '>' + name + '</a>';
+        } else {
+            desc = name;
+        }
+        var row = "<tr><td>" + desc + "</td><td>" + GP.addCommas(n) + "</td><td>" + p + "</td></tr>\n";
+        rows += row;
+    }
+    return rows;
 };
 
 
+GP.PARAM_DEFAULTS = {
+    'lang'      : 'all',
+    'country'   : 'all',
+    'mode'      : 'geoprovenance',
+    'entity'    : 'sources'
+};
 
 
+GP.onUrlChange = function() {
+    try {
+        var location = window.history.location || window.location;
+        var params = {};
+        $.extend(params, GP.PARAM_DEFAULTS, GP.url2QueryObj(location.href));
+        GP.visualize(params.lang, params.country);
+    } catch (e) {
+        alert('Exception occurred: ' + GP.formatException(e));
+    }
+};
 
+GP.updateUrl = function(changed_params) {
+    // Calculate new URL params
+    var location = window.history.location || window.location;
+    var current_params = GP.url2QueryObj(location.href);
+
+    var new_params = {};
+    $.extend(new_params, current_params, changed_params);
+
+    for (var key in GP.PARAM_DEFAULTS) {
+        if (new_params[key] == GP.PARAM_DEFAULTS[key]) {
+            delete new_params[key];
+        }
+    }
+    if (GP.objectsEqual(current_params, new_params)) {
+        return;
+    }
+
+    // keep the link in the browser history
+    var new_url = location.protocol + '//' + location.host + location.pathname + '?' + $.param(new_params);
+    history.pushState(null, null, new_url);
+
+    GP.onUrlChange();
+};
+
+
+GP.initHistory = function() {
+
+    // Handles updating
+    $(document).on('click', 'a.ajax', function() {
+        GP.updateUrl(GP.url2QueryObj(this.href));
+
+        // do not give a default action
+        return false;
+    });
+
+    // hang on popstate event triggered by pressing back/forward in browser
+    $(window).on('popstate', function(e) {
+        GP.onUrlChange();
+    });
+};
 

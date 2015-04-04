@@ -1,4 +1,4 @@
-var GP_ITEMIZED_DATA = {
+window.GP_ITEMIZED_DATA = {
     "articles" : [
         ["United States", 324110],
         ["California", 84232],
