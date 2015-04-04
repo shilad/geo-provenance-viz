@@ -1,0 +1,14 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.wikibrainapi</groupId>
+    <artifactId>geo-provenance-viz</artifactId>
+    <version>1.0</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.wikibrainapi</groupId>
+            <artifactId>wikibrain</artifactId>
+            <version>0.6-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>
