@@ -55,7 +55,7 @@ public class ExportPageViews {
 
         // Get country codes
         Map<Integer, String> countryCodes = new HashMap<Integer, String>();
-        for (WikidataStatement stm : wikidataDao.get(new WikidataFilter.Builder().withPropertyId(1140221).build())) {
+        for (WikidataStatement stm : wikidataDao.get(new WikidataFilter.Builder().withPropertyId(297).build())) {
             countryCodes.put(stm.getItem().getId(), stm.getValue().getStringValue());
         }
         System.err.println("found " + countryCodes.size() + " country codes");
