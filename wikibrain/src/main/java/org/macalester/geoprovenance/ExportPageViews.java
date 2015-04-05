@@ -11,6 +11,7 @@ import org.wikibrain.core.dao.DaoException;
 import org.wikibrain.core.dao.LocalPageDao;
 import org.wikibrain.core.dao.UniversalPageDao;
 import org.wikibrain.core.lang.Language;
+import org.wikibrain.core.lang.LanguageSet;
 import org.wikibrain.core.lang.LocalId;
 import org.wikibrain.core.model.LocalPage;
 import org.wikibrain.pageview.PageViewDao;
@@ -24,8 +25,7 @@ import org.wikibrain.wikidata.WikidataStatement;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
@@ -81,10 +81,14 @@ public class ExportPageViews {
         // Build leaderboard datastructures for all lang / country pairs.
         final Map<String, Scoreboard<PageViews>> top = new HashMap<String, Scoreboard<PageViews>>();
         final Map<String, AtomicLong> totals = new HashMap<String, AtomicLong>();
-        for (Language lang : env.getLanguages()) {
-            for (String countryCode : countryCodes.values()) {
-                String key = lang.getLangCode() + " " + countryCode;
-                top.put(key, new Scoreboard<PageViews>(100, Scoreboard.Order.DECREASING));
+        List<String> langCodes = env.getLanguages().getLangCodes();
+        List<String> countryCodeList = new ArrayList<String>(countryCodes.values());
+        langCodes.add("all");
+        countryCodeList.add("all");
+        for (String langCode : langCodes) {
+            for (String countryCode : countryCodeList) {
+                String key = langCode + " " + countryCode;
+                top.put(key, new Scoreboard<PageViews>(1000, Scoreboard.Order.DECREASING));
                 totals.put(key, new AtomicLong());
             }
         }
@@ -112,12 +116,19 @@ public class ExportPageViews {
                         if (univToLocal.containsKey(lang) && univToLocal.get(lang).containsKey(conceptId)) {
                             int localId = univToLocal.get(lang).get(conceptId);
                             int views = viewDao.getNumViews(lang, localId, new DateTime(0), DateTime.now());
-                            String key = lang.getLangCode() + " " + countryCode;
-                            Scoreboard<PageViews> board = top.get(key);
-                            synchronized (board) {
-                                board.add(new PageViews(lang, localId, views), views);
+                            List<String> keys = Arrays.asList(
+                                                    lang.getLangCode() + " " + countryCode,
+                                                    lang.getLangCode() + " all",
+                                                    "all " + countryCode,
+                                                    "all all"
+                                                );
+                            for (String key : keys) {
+                                Scoreboard<PageViews> board = top.get(key);
+                                synchronized (board) {
+                                    board.add(new PageViews(lang, localId, views), views);
+                                }
+                                totals.get(key).addAndGet(views);
                             }
-                            totals.get(key).addAndGet(views);
                         }
                     }
                 }
@@ -129,7 +140,7 @@ public class ExportPageViews {
         BufferedWriter writer = WpIOUtils.openWriter(new File("lang_country_views.txt"));
         for (String key : top.keySet()) {
             String tokens[] = key.split(" ");
-            Language lang = Language.getByLangCode(tokens[0]);
+            String langCode = tokens[0];
             String countryCode = tokens[1];
             Scoreboard<PageViews> views = top.get(key);
             long topCounts = 0;
@@ -137,13 +148,13 @@ public class ExportPageViews {
                 PageViews pv = views.getElement(i);
                 LocalPage page = pageDao.getById(pv.localId);
                 writer.write(String.format("%s\t%s\t%d\t%s\t%s\n",
-                        lang.getLangCode(), countryCode, pv.views,
+                        langCode, countryCode, pv.views,
                         page.getTitle(), page.getTitle().toUrl()));
                 topCounts += pv.views;
             }
             long otherCounts = totals.get(key).get() - topCounts;
             writer.write(String.format("%s\t%s\t%d\t%s\t%s\n",
-                    lang.getLangCode(), countryCode, otherCounts,
+                    langCode, countryCode, otherCounts,
                     "Other", ""));
         }
         writer.close();
