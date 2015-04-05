@@ -37,22 +37,7 @@ public class ExportPageViews {
     static Map<Integer, String> MISSING_COUNTRY_CODES = new HashMap<Integer, String>();
     static {
         MISSING_COUNTRY_CODES.put(51, "AQ");
-//        MISSING_COUNTRY_CODES.put(215664, "AQ");
-//        MISSING_COUNTRY_CODES.put(161258, "AQ");
-//        MISSING_COUNTRY_CODES.put(1246, "AQ");
-//        MISSING_COUNTRY_CODES.put(34754, "AQ");
-//        MISSING_COUNTRY_CODES.put(762570, "AQ");
-//        MISSING_COUNTRY_CODES.put(628716, "AQ");
-//        MISSING_COUNTRY_CODES.put(177477, "AQ");
-//        MISSING_COUNTRY_CODES.put(1257783, "AQ");
-//        MISSING_COUNTRY_CODES.put(23792, "AQ");
-//        MISSING_COUNTRY_CODES.put(133888, "AQ");
-//        MISSING_COUNTRY_CODES.put(333946, "AQ");
-//        MISSING_COUNTRY_CODES.put(1169008, "AQ");
-//        MISSING_COUNTRY_CODES.put(37362, "AQ");
-//        MISSING_COUNTRY_CODES.put(172216, "AQ");
-//        MISSING_COUNTRY_CODES.put(116970, "AQ");
-//        MISSING_COUNTRY_CODES.put(23681, "AQ");
+        MISSING_COUNTRY_CODES.put(23792, "PS");
     }
 
     private static class PageViews {
