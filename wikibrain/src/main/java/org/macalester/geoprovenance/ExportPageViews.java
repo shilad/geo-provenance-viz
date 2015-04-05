@@ -34,6 +34,27 @@ import java.util.logging.Logger;
  */
 public class ExportPageViews {
 
+    static Map<Integer, String> MISSING_COUNTRY_CODES = new HashMap<Integer, String>();
+    static {
+        MISSING_COUNTRY_CODES.put(51, "AQ");
+//        MISSING_COUNTRY_CODES.put(215664, "AQ");
+//        MISSING_COUNTRY_CODES.put(161258, "AQ");
+//        MISSING_COUNTRY_CODES.put(1246, "AQ");
+//        MISSING_COUNTRY_CODES.put(34754, "AQ");
+//        MISSING_COUNTRY_CODES.put(762570, "AQ");
+//        MISSING_COUNTRY_CODES.put(628716, "AQ");
+//        MISSING_COUNTRY_CODES.put(177477, "AQ");
+//        MISSING_COUNTRY_CODES.put(1257783, "AQ");
+//        MISSING_COUNTRY_CODES.put(23792, "AQ");
+//        MISSING_COUNTRY_CODES.put(133888, "AQ");
+//        MISSING_COUNTRY_CODES.put(333946, "AQ");
+//        MISSING_COUNTRY_CODES.put(1169008, "AQ");
+//        MISSING_COUNTRY_CODES.put(37362, "AQ");
+//        MISSING_COUNTRY_CODES.put(172216, "AQ");
+//        MISSING_COUNTRY_CODES.put(116970, "AQ");
+//        MISSING_COUNTRY_CODES.put(23681, "AQ");
+    }
+
     private static class PageViews {
         final LocalId localId;
         final long views;
@@ -54,7 +75,7 @@ public class ExportPageViews {
         SpatialDataDao spatialDao = env.getConfigurator().get(SpatialDataDao.class);
 
         // Get country codes
-        Map<Integer, String> countryCodes = new HashMap<Integer, String>();
+        Map<Integer, String> countryCodes = new HashMap<Integer, String>(MISSING_COUNTRY_CODES);
         for (WikidataStatement stm : wikidataDao.get(new WikidataFilter.Builder().withPropertyId(297).build())) {
             countryCodes.put(stm.getItem().getId(), stm.getValue().getStringValue());
         }
@@ -94,7 +115,11 @@ public class ExportPageViews {
         Map<Integer, Geometry> geometries = spatialDao.getAllGeometriesInLayer("wikidata");
         System.err.println("retrieved " + geometries.size() + " geometries");
 
+        int n = 0;
         for (int conceptId : geometries.keySet()) {
+            if (++n % 100 == 0) {
+                System.err.println("doing " + n + " of " + geometries.size());
+            }
 
             // For each containing country
             for (ContainmentIndex.Result container : countryIndex.getContainer(geometries.get(conceptId))) {
@@ -109,7 +134,6 @@ public class ExportPageViews {
                         String key = lang.getLangCode() + " " + countryCode;
                         top.get(key).add(new PageViews(lang, localId, views), views);
                         totals.put(key, totals.get(key) + views);
-                        System.err.println("considering " + key + " " + localId + " " + views);
                     }
                 }
             }
