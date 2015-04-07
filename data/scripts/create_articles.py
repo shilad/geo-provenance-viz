@@ -10,13 +10,12 @@ def warn(message):
     sys.stderr.write(message + '\n')
 
 
-def write(rows):
-    (lang, country) = rows[0][:2]
-    d = '../results/sources/%s' % lang
+def write(lang, country, rows):
+    d = '../results/sources/articles/%s' % lang
     if not os.path.isdir(d):
         os.mkdir(d)
-    f = codecs.open(d + '/%s_articles.js' % country, 'w', encoding='utf-8')
-    f.write('var GP_ITEMIZED_ARTICLES = [\n')
+    f = codecs.open(d + '/%s.js' % country.lower(), 'w', encoding='utf-8')
+    f.write('[\n')
     for r in rows:
         json.dump(r, f)
         if r is not rows[-1]:
@@ -35,24 +34,25 @@ for line in f:
     if line == prevLine:
         continue
 
-    tokens = line.split('\t')
+    tokens = [t.strip() for t in line.split('\t')]
     if len(tokens) != 5:
         warn('invalid line: %s' % `line`)
         continue
 
-    (lang, country, count, article, url) = [t.strip() for t in tokens]
+    (lang, country, count, article, url) = tokens
     if int(count) == 0:
         continue
 
     key = (lang, country)
 
-    if prevKey and key != prevKey:
-        write(rows)
+    if rows and key != prevKey:
+        write(prevKey[0], prevKey[1], rows)
         rows = []
 
-    rows.append(tokens)
+    rows.append([article, int(count), url])
 
     prevKey = key
     prevLine = line
 
-
+if rows:
+    write(prevKey[0], prevKey[1], rows)
