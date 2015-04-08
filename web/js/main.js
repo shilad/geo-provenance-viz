@@ -22,11 +22,12 @@ function init_page(entity) {
     } else {
         alert("unknown entity: " + entity);
     }
-    GP.visualize("en", "au");
     GP.initHistory();
+    GP.initEvents();
     GP.onUrlChange();   // manually trigger a refresh
 }
 
+GP.iso2name = function(iso) { return GP.iso2countries[iso.toLowerCase()].name; }
 
 GP.name2Iso = function(name) {
     if (name == 'all') {
@@ -55,26 +56,56 @@ GP.get_data = function(lang, article_iso) {
         var row = counts[i];
         var l = row[0];
         var cc1 = row[1];
-        var cc1_native = row[2];
         var cc2 = row[3];
-        var cc2_native = row[4];
-        var kms = row[5];
         var n = row[6];
-        if (lang != 'all' && l != lang) {
-            continue;
+        if ((lang == 'all' || l == lang)
+        &&  (article_iso == 'all' || cc1 == article_iso)) {
+            var key = cc2.toUpperCase();
+            if (key in filtered) {
+                filtered[key] += n;
+            } else {
+                filtered[key] = n;
+            }
         }
-        if (article_iso != 'all' && cc1 != article_iso) {
-            continue;
-        }
-        var key = cc2.toUpperCase();
-        filtered[key] = (filtered[key]) ? filtered[key] : 0 + n;
     }
 
     return filtered;
 
 };
 
+GP.assignMapColor = function(v) {
+    var color;
+    if (isNaN(v)) {
+        color = "#CCCCCC";
+    } else if (v < 0.002) {
+        color = "#FFFFFF";
+    } else if (v < 0.01) {
+        color = "#E6EEF6";
+    } else if (v <= 0.02) {
+        color = "#CEDDEE";
+    } else if (v <= 0.05) {
+        color = "#93B9DB";
+    } else if (v <= 0.10) {
+        color = "#5D95C7";
+    } else if (v <= 0.20) {
+        color = "#3373B5";
+    } else if (v <= 0.50) {
+        color = "#305BA2";
+    } else {
+        color = "#004694";
+    }
+    return color;
+};
+
 GP.visualize = function(lang, article_iso) {
+    $("span.langName").text((lang == 'all') ? '' : ('the ' + GP_LANGS[lang]));
+    if (article_iso == 'all') {
+        $(".countryCaption").hide(0);
+    } else {
+        $(".countryCaption").show(0);
+        $("span.countryName").text(GP.iso2name(article_iso));
+    }
+
     var filtered = GP.get_data(lang, article_iso);
     var total = 0;
     for (var c in filtered) { total += filtered[c]; }
@@ -82,28 +113,7 @@ GP.visualize = function(lang, article_iso) {
     var colors = {};
     for (var c in filtered) {
         var v = 1.0 * filtered[c] / total;
-
-        var color;
-        if (isNaN(v)) {
-            color = "#CCCCCC";
-        } else if (v < 0.002) {
-            color = "#FFFFFF";
-        } else if (v < 0.01) {
-            color = "#E6EEF6";
-        } else if (v <= 0.02) {
-            color = "#CEDDEE";
-        } else if (v <= 0.05) {
-            color = "#93B9DB";
-        } else if (v <= 0.10) {
-            color = "#5D95C7";
-        } else if (v <= 0.20) {
-            color = "#3373B5";
-        } else if (v <= 0.50) {
-            color = "#305BA2";
-        } else {
-            color = "#004694";
-        }
-        colors[c.toUpperCase()] = color;
+        colors[c.toUpperCase()] = GP.assignMapColor(v);
     }
 
     var map_params = {
@@ -117,8 +127,25 @@ GP.visualize = function(lang, article_iso) {
             }]
         },
         onRegionTipShow   : function(e, el, code){
+            var examples = GP_ITEMIZED_DATA.domains[code.toLowerCase()];
+            var domains = '';
+            if (examples) {
+                for (var i = 0; i < examples.length; i++) {
+                    var n = examples[i][0];
+                    if (n != 'other') {
+                        domains += '<li>' + n;
+                    }
+                }
+                if (domains) domains = '<br>Top domains: <ul>' + domains + '</ul>';
+            }
+            var action;
+            if (code == article_iso.toUpperCase()) {
+                action = 'Click to include<br/>all articles';
+            } else {
+                action = 'Click to only include <br/>articles about ' + el.html();
+            }
             var p = (100.0 * filtered[code] / total).toFixed(2);
-            el.html(el.html()+' ('+p+'%)');
+            el.html(el.html()+' ('+p+'%)<br/> ' + domains + action);
         },
         regionStyle : {
             initial: {
@@ -131,24 +158,25 @@ GP.visualize = function(lang, article_iso) {
             },
             selected: {
                 stroke: 'red',
-                "stroke-width": 1
+                "stroke-width": 2
             },
             selectedHover: {
             }
         },
         onRegionClick : function(ev, iso) {
-            console.log('iso is ' + iso);
+            $(".jvectormap-tip").remove();
             iso = iso.toLowerCase();
-            if (iso == 'all' || iso in GP.iso2countries) {
-                GP.updateUrl({ 'country' : iso })
+            var params = GP.url2QueryObj(GP.location().href);
+            if (params.country == iso) {
+                GP.updateUrl({ 'country' : 'all'})
             } else {
-                alert('unknown country: ' + iso);
+                GP.updateUrl({ 'country' : iso });
             }
-            $(".jvectormap-label").remove();
         }
     };
     if (article_iso != 'all') {
-        //map_params.selectedRegions = article_iso.toUpperCase();
+        map_params.selectedRegions = article_iso.toUpperCase();
+        map_params.regionStyle.selected.fill = colors[article_iso.toUpperCase()];
     }
     var map = $('.map-canvas:first-of-type').empty().vectorMap(map_params);
 
@@ -180,7 +208,7 @@ GP.update_itemized_lists = function(lang, article_iso, filtered) {
         var c = sorted[i];
         var n = filtered[c];
         if ( i < 10) {
-            data.countries.push([c, n]);
+            data.countries.push([GP.iso2name(c), n]);
         } else {
             otherTotal += n;
         }
@@ -192,33 +220,76 @@ GP.update_itemized_lists = function(lang, article_iso, filtered) {
         GP.make_itemized_rows(data.countries, null)
     );
     $(".itemized-data .itemized-articles tbody").html(
-        GP.make_itemized_rows(data.articles, null)
+        GP.make_itemized_rows(data.articles, function(row) { return row[2];})
     );
     $(".itemized-data .itemized-sources tbody").html(
-        GP.make_itemized_rows(data.domains, function (domain) { return 'http://' + domain; })
+        GP.make_itemized_rows(data.domains['all'], function (row) { return 'http://' + row[0]; })
     );
+    $(".itemized-data .extended").hide();
+    $(".itemized-data .showmore").bind('click', function () {
+        $(this).closest("tbody").find("tr.compact").hide(1000);
+        $(this).closest("tbody").find("tr.extended").show(1000);
+        return false;
+    });
+    $(".itemized-data .showless").bind('click', function () {
+        $(this).closest("tbody").find("tr.extended").hide(1000);
+        $(this).closest("tbody").find("tr.compact").delay(1100).show(0);
+        return false;
+    });
 };
 
 GP.make_itemized_rows = function(list, linker) {
+    if (!list || list.length == 0) {
+        return "<tr><td colspan=3>No data available</td></tr>\n";
+    }
     var total = 0.0;
     for (var i = 0; i < list.length; i++) {
         total += list[i][1];
     }
+    var totalTop = 0;
     var rows = '';
-    for (var i = 0; i < list.length; i++) {
-        var name = list[i][0];
-        var n = list[i][1];
+
+    var makeRow = function(cssClass, desc, n) {
         var p = (100.0 * n / total).toFixed(2) + '%';
+        return "<tr class=\"" + cssClass + "\"><td>" + desc + "</td><td>" + GP.addCommas(n) + "</td><td>" + p + "</td></tr>\n";
+    };
+
+    for (var i = 0; i < list.length; i++) {
+        var row = list[i];
+        var name = row[0];
+        var n = row[1];
         var desc;
         if (linker) {
-            desc = '<a href=' + linker(name) + '>' + name + '</a>';
+            desc = '<a href=' + linker(row) + '>' + name + '</a>';
         } else {
             desc = name;
         }
-        var row = "<tr><td>" + desc + "</td><td>" + GP.addCommas(n) + "</td><td>" + p + "</td></tr>\n";
-        rows += row;
+        var klass;
+        if (i < 10) {
+            totalTop += n;
+        } else if (i == 10 && name == 'other') {
+            klass = "compact";
+            totalTop += n;
+        } else {
+            klass = "extended";
+        }
+        rows += makeRow(klass, desc, n);
+    }
+
+    if (total != totalTop) {
+        rows += makeRow("compact", "other", total-totalTop);
+        rows += '<tr class="compact"><td colspan="3"><a class="showmore" href="#">show more</a></td></tr>\n'
+        rows += '<tr class="extended"><td colspan="3"><a class="showless" href="#">show less</a></td></tr>\n'
     }
     return rows;
+};
+
+GP.initEvents = function() {
+    $("a.moreLangs").bind('click', function() {
+        $(".moreLangsToggle").toggle();
+        return false;
+    });
+
 };
 
 
@@ -230,12 +301,32 @@ GP.PARAM_DEFAULTS = {
 };
 
 
+GP.location = function() { return window.history.location || window.location };
+
+
 GP.onUrlChange = function() {
     try {
-        var location = window.history.location || window.location;
+        var location = GP.location();
         var params = {};
         $.extend(params, GP.PARAM_DEFAULTS, GP.url2QueryObj(location.href));
         GP.visualize(params.lang, params.country);
+
+        // Mark appropriate href links as active.
+        $("a.ajax").each(function () {
+            var href_params = GP.url2QueryObj(this.href);
+            var active = true;
+            for (var k in href_params) {
+                if (params[k] != href_params[k]) {
+                    active = false;
+                    break;
+                }
+            }
+            if (active) {
+                $(this).addClass("active");
+            } else {
+                $(this).removeClass("active");
+            }
+        });
     } catch (e) {
         alert('Exception occurred: ' + GP.formatException(e));
     }
@@ -243,11 +334,9 @@ GP.onUrlChange = function() {
 
 GP.updateUrl = function(changed_params) {
     // Calculate new URL params
-    var location = window.history.location || window.location;
+    var location = GP.location();
     var current_params = GP.url2QueryObj(location.href);
-
-    var new_params = {};
-    $.extend(new_params, current_params, changed_params);
+    var new_params = $.extend({}, current_params, changed_params);
 
     for (var key in GP.PARAM_DEFAULTS) {
         if (new_params[key] == GP.PARAM_DEFAULTS[key]) {
@@ -263,6 +352,7 @@ GP.updateUrl = function(changed_params) {
     history.pushState(null, null, new_url);
 
     GP.onUrlChange();
+
 };
 
 
@@ -270,6 +360,7 @@ GP.initHistory = function() {
 
     // Handles updating
     $(document).on('click', 'a.ajax', function() {
+        // construct the new URL and trigger an update
         GP.updateUrl(GP.url2QueryObj(this.href));
 
         // do not give a default action

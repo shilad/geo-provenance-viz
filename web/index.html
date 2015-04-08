@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title></title>
+    <title>Where Does Wikipedia's Information Come From?</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -31,27 +31,120 @@
 <![endif]-->
 
 <div class="container">
-    <div class="row">
-        <h1 class="col-md-12">Where do English Wikipedia's citations come from?</h1>
+    <div class="row controls">
         <p class="col-md-12">
-            Show: <a class="mode ajax" href="?mode=localness">localness</a> / <a class="mode ajax" href="?mode=geoprovenance">geoprovenance</a> of
-            <a class="mode ajax" href="?entity=editors">editors</a> / <a class="mode ajax" href="?entity=sources">sources</a> <br/>
+            <!--Show: <a class="mode ajax" href="?mode=localness">localness</a> / <a class="mode ajax" href="?mode=geoprovenance">geoprovenance</a> of-->
+            <!--<a class="mode ajax" href="?entity=editors">editors</a> / <a class="mode ajax" href="?entity=sources">sources</a> <br/>-->
             Select Wikipedia language edition:
             <a class="lang ajax" href="?lang=all">All</a>,
             <a class="lang ajax" href="?lang=en">English</a>,
-            <a class="lang ajax" href="?lang=sv">Swedish</a>,
-            <a class="lang ajax" href="?lang=nl">Dutch</a>,
+            <a class="lang ajax" href="?lang=fr">French</a>,
+            <a class="lang ajax" href="?lang=it">Italian</a>,
             <a class="lang ajax" href="?lang=de">German</a>,
-            <a class="lang ajax" href="?lang=more">more..</a>
+            <a class="lang ajax" href="?lang=ru">Russian</a>,
+            <a class="lang ajax" href="?lang=ja">Japanese</a>,
+            <a class="lang ajax" href="?lang=vi">Vietnamese</a>,
+
+            <a class="moreLangs moreLangsToggle" href="?lang=more">more..</a>
+            <span class="moreLangsToggle">
+                <a class="lang ajax" href="?lang=pl">Polish</a>,
+                <a class="lang ajax" href="?lang=uk">Ukrainian</a>,
+                <a class="lang ajax" href="?lang=pt">Portuguese</a>,
+                <a class="lang ajax" href="?lang=nl">Dutch</a>,
+                <a class="lang ajax" href="?lang=es">Spanish</a>,
+                <a class="lang ajax" href="?lang=zh">Chinese</a>,
+                <a class="lang ajax" href="?lang=ca">Catalan</a>,
+                <a class="lang ajax" href="?lang=sv">Swedish</a>,
+                <a class="lang ajax" href="?lang=hu">Hungarian</a>,
+                <a class="lang ajax" href="?lang=cs">Czech</a>,
+                <a class="lang ajax" href="?lang=no">Norwegian (Bokmål)</a>,
+                <a class="lang ajax" href="?lang=fa">Persian</a>,
+                <a class="lang ajax" href="?lang=ko">Korean</a>,
+                <a class="lang ajax" href="?lang=ar">Arabic</a>,
+                <a class="lang ajax" href="?lang=fi">Finnish</a>,
+                <a class="lang ajax" href="?lang=id">Indonesian</a>,
+                <a class="lang ajax" href="?lang=ro">Romanian</a>,
+                <a class="lang ajax" href="?lang=eu">Basque</a>,
+                <a class="lang ajax" href="?lang=da">Danish</a>,
+                <a class="lang ajax" href="?lang=et">Estonian</a>,
+                <a class="lang ajax" href="?lang=oc">Occitan</a>,
+                <a class="lang ajax" href="?lang=hi">Hindi</a>,
+                <a class="lang ajax" href="?lang=ka">Georgian</a>,
+                <a class="lang ajax" href="?lang=el">Greek</a>,
+                <a class="lang ajax" href="?lang=gl">Galician</a>,
+                <a class="lang ajax" href="?lang=simple">Simple English</a>,
+                <a class="lang ajax" href="?lang=th">Thai</a>,
+                <a class="lang ajax" href="?lang=la">Latin</a>,
+                <a class="lang ajax" href="?lang=new">Newar / Nepal Bhasa</a>,
+                <a class="lang ajax" href="?lang=cy">Welsh</a>,
+                <a class="lang ajax" href="?lang=te">Telugu</a>,
+                <a class="lang ajax" href="?lang=lv">Latvian</a>,
+                <a class="lang ajax" href="?lang=mr">Marathi</a>,
+                <a class="lang ajax" href="?lang=is">Icelandic</a>,
+                <a class="lang ajax" href="?lang=kab">Kabyle</a>,
+                <a class="lang ajax" href="?lang=as">Assamese</a>,
+                <a class="lang ajax" href="?lang=tg">Tajik</a>,
+                <a class="lang ajax" href="?lang=nds-nl">Dutch Low Saxon</a>,
+                <a class="lang ajax" href="?lang=arz">Egyptian Arabic</a>,
+                <a class="lang ajax" href="?lang=bn">Bengali</a>,
+                <a class="lang ajax" href="?lang=ce">Chechen</a>,
+                <a class="lang ajax" href="?lang=hif">Fiji Hindi</a>,
+                <a class="lang ajax" href="?lang=ast">Asturian</a>,
+                <a class="lang ajax" href="?lang=ace">Acehnese</a>,
+                <a class="lang ajax" href="?lang=ml">Malayalam</a>,
+                <a class="lang ajax" href="?lang=gu">Gujarati</a>,
+                <a class="lang ajax" href="?lang=ilo">Ilokano</a>,
+                <a class="lang ajax" href="?lang=als">Alemannic</a>,
+                <a class="lang ajax" href="?lang=ang">Anglo-Saxon</a>,
+                <a class="lang ajax" href="?lang=lo">Lao</a>,
+                <a class="lang ajax" href="?lang=pfl">Palatinate German</a>,
+                <a class="lang ajax" href="?lang=tt">Tatar</a>,
+                <a class="lang ajax" href="?lang=ga">Irish</a>,
+                <a class="lang ajax" href="?lang=ur">Urdu</a>,
+                <a class="lang ajax" href="?lang=ckb">Sorani</a>,
+                <a class="lang ajax" href="?lang=so">Somali</a>,
+                <a class="lang ajax" href="?lang=myv">Erzya</a>,
+                <a class="lang ajax" href="?lang=tn">Tswana</a>,
+                <a class="lang ajax" href="?lang=sah">Sakha</a>,
+                <a class="lang ajax" href="?lang=nds">Low Saxon</a>,
+                <a class="lang ajax" href="?lang=sc">Sardinian</a>,
+                <a class="lang ajax" href="?lang=dsb">Lower Sorbian</a>,
+                <a class="lang ajax" href="?lang=pih">Norfolk</a>,
+                <a class="lang ajax" href="?lang=gn">Guarani</a>,
+                <a class="lang ajax" href="?lang=bar">Bavarian</a>,
+                <a class="lang ajax" href="?lang=uz">Uzbek</a>,
+                <a class="lang ajax" href="?lang=sco">Scots</a>,
+                <a class="lang ajax" href="?lang=km">Khmer</a>,
+                <a class="lang ajax" href="?lang=map-bms">Banyumasan</a>,
+                <a class="moreLangs" href="#">less..</a>
+            </span>
         </p>
+        <h2 class="col-md-12">
+            Where does <span class="langName"></span>
+            Wikipedia's information
+            <span class="countryCaption">about <span class="countryName"></span></span>
+            come from?
+        </h2>
     </div>
 
     <div class="row">
-        <div class="col-md-8">
-            <h4>Percentage of sources from each country for articles about Australia</h4>
+        <div class="instructions col-md-12">
+            <p>This visualization shows the geography of citations in <span class="langName"></span> Wikipedia's articles about places<span class="countryCaption">&nbsp;in <span class="countryName"></span></span>.
+                All URLs that appear in articles are considered sources, and their location is inferred using a novel <a href="https://github.com/shilad/geo-provenance/">geoprovenance inference algorithm</a>.
+                Click a country to limit the visualization to articles about that country.
+
+            <p>For more information, refer to our paper:
+            Sen, S., Ford, H., Musicant, D., Graham, M., Keyes, O., and Hecht, B. 2015. <a href="http://www-users.cs.umn.edu/~bhecht/publications/localnessgeography_CHI2015.pdf">Barriers to the Localness of Volunteered Geographic Information.</a> Proceedings of CHI 2015. New York: ACM Press.
         </div>
-        <div class="col-md-4">
-            <h4><small>locked to <b>Australia</b> <a class="unlock">unlock</a></small></h4>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4>
+                Worldwide distribution of sources in
+                <span class="langName"></span> Wikipedia<span class="countryCaption">'s articles about <span class="countryName">Australia</span></span>
+                <small class="countryCaption">&nbsp;&nbsp;&nbsp;<a class="ajax" href="?country=all">show all articles</a></small>
+            </h4>
         </div>
     </div>
     <div class="row">
@@ -100,19 +193,11 @@
             </table>
         </div>
     </div>
-    <div class="row">
-         <div class="instructions col-md-12">
-             This visualization shows the geography of citations in all English Wikipedia articles about places.
-             All URLs that appear in articles are considered sources, and their location is inferred using a novel geoprovenance inference algorithm.
-             For more information, refer to our paper:
-             Sen, S., Ford, H., Musicant, D., Graham, M., Keyes, O., and Hecht, B. 2015. Barriers to the Localness of Volunteered Geographic Information. Proceedings of CHI 2015. New York: ACM Press.
-         </div>
-    </div>
 
     <!-- Example row of columns -->
     <div class="row itemized-data">
-        <div class="col-md-4">
-            <h4>Most cited countries</h4>
+        <div class="col-md-4 col-xs-6">
+            <h4>Geography of sources</h4>
             <table class="table table-condensed itemized-countries">
                 <thead>
                 <tr>
@@ -126,7 +211,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-xs-6">
             <h4>Most viewed articles</h4>
             <table class="table table-condensed itemized-articles">
                 <thead>
@@ -141,7 +226,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-xs-6">
             <h4>Most cited sources</h4>
             <table class="table table-condensed itemized-sources">
                 <thead>
@@ -161,7 +246,7 @@
     <hr>
 
     <footer>
-        <p>&copy; Company 2015</p>
+        <p>&copy; Shilad Sen, 2015. <a href="http://www.shilad.com">http://www.shilad.com</a></p>
     </footer>
 </div> <!-- /container -->
 
@@ -175,12 +260,15 @@
 
 <script src="js/plugins.js"></script>
 
+<script src="data/wplangs.js"></script>
 <script src="data/publisher-counts.js"></script>
-<script src="js/countries.js"></script>
+<script src="data/countries.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/main.js"></script>
 <script>
-    init_page('publisher');
+    $().ready(function() {
+        init_page('publisher');
+    })
 </script>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

@@ -100,8 +100,19 @@ b {
    font-size: 11px;
 }
 
+.itemized-data td:first-child, .itemized-data th:first-child  {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width : 150px;
+   max-width: 150px;
+}
 
+.countryCaption { display: none; }
 
+.jvectormap-tip li {
+   margin-top: -3px;
+   margin-left : -25px;
+}
 
-
-
+span.moreLangsToggle { display : none; }
