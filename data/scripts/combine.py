@@ -49,13 +49,15 @@ def combine():
     for lang in LANGS:
         for iso in ISOs:
             r = combine_one(lang, iso)
-            d = '../results/sources/combined/%s' % lang
-            if not os.path.exists(d): os.makedirs(d)
-            p = '%s/%s.js' % (d, iso)
-            js = json.dumps(r)
-            f = io.open(p, 'w', encoding='utf-8')
-            f.write(u'var ITEMIZED_DATA = %s;\n' % js)
-            f.close()
+            for s in ('sources', 'editors'):
+                d = '../results/%s/combined/%s' % (s, lang)
+                if not os.path.exists(d): os.makedirs(d)
+                if s == 'editors': del(r['domains'])
+                js = json.dumps(r)
+                p = '%s/%s.js' % (d, iso)
+                f = io.open(p, 'w', encoding='utf-8')
+                f.write(u'var ITEMIZED_DATA = %s;\n' % js)
+                f.close()
 
 def prune_top(top, k, min_item_count=0, min_total_count=0):
     total = sum(int(i[1]) for i in top)
