@@ -11,7 +11,7 @@ NUM_OTHER_DOMAINS = 5
 """
 Creates a series of files with paths: lang/country.js
 
-Each file declares a javascript variable called ITEMIZED_DATA with the following structure:
+Each file declares a javascript variable called GP_ITEMIZED_DATA with the following structure:
 
 {
     articles : [
@@ -56,7 +56,7 @@ def combine():
                 js = json.dumps(r)
                 p = '%s/%s.js' % (d, iso)
                 f = io.open(p, 'w', encoding='utf-8')
-                f.write(u'var ITEMIZED_DATA = %s;\n' % js)
+                f.write(u'var GP_ITEMIZED_DATA = %s;\n' % js)
                 f.close()
 
 def prune_top(top, k, min_item_count=0, min_total_count=0):

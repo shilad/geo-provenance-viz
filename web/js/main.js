@@ -266,6 +266,7 @@ GP.make_itemized_rows = function(list, linker) {
         }
         var klass;
         if (i < 10) {
+            klass = '';
             totalTop += n;
         } else if (i == 10 && name == 'other') {
             klass = "compact";

@@ -9,12 +9,6 @@
 
 
 
-.top {
-   padding: 0px 15px 30px 15px;
-   margin-bottom: 30px;
-   color: inherit;
-}
-
 
 body {
    color: #888;
@@ -22,6 +16,7 @@ body {
 
 h1,h2,h3,h4,h5 {
    color: black;
+   margin: 15px 0 10px 0;
 }
 
 a {
@@ -96,19 +91,31 @@ b {
 .legend-box.lb8 { background-color: rgb(255, 255, 255); }
 .legend-box.lb9 { background-color: rgb(204, 204, 204); }
 
-.itemized-data tbody {
+div.row.itemized-data {
+   padding-top: 10px;
+}
+
+.itemized-data  {
    font-size: 11px;
+}
+.itemized-data td {
+   padding: 4px !important;
 }
 
 .itemized-data td:first-child, .itemized-data th:first-child  {
    overflow: hidden;
    text-overflow: ellipsis;
    white-space: nowrap;
-   width : 150px;
-   max-width: 150px;
+   width : 160px;
+   max-width: 160px;
 }
 
 .countryCaption { display: none; }
+
+.jvectormap-tip {
+   padding: 5px;
+   min-width: 100px;
+}
 
 .jvectormap-tip li {
    margin-top: -3px;
