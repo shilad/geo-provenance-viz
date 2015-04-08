@@ -250,22 +250,49 @@
     </footer>
 </div> <!-- /container -->
 
+<div class="progress progress-striped active" id="progressouter">
+    <div class="bar" id="progress"></div>
+</div>
+
 <script src="js/vendor/jquery-1.11.2.min.js"></script>
 <script src="js/vendor/bootstrap.min.js"></script>
+
+<script>
+    var updateProgress = function(percent) {
+        if (percent == 100) {
+            $("#progressouter").removeClass("active");
+            $("#progress").html("Done");
+        } else {
+            /* update the progress bar width */
+            $("#progress").css('width',percent+'%');
+            /* and display the numeric value */
+            $("#progress").html(percent+'%');
+        }
+    };
+
+    updateProgress(10);
+</script>
+
 <script src="js/vendor/jquery-deparam.js"></script>
 <script src="js/vendor/history.min.js"></script>
 
+<script> updateProgress(20);</script>
+
 <script src="js/vendor/jquery-jvectormap-2.0.2.min.js"></script>
 <script src="js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+<script> updateProgress(30);</script>
 
 <script src="js/plugins.js"></script>
 
 <script src="data/wplangs.js"></script>
+<script> updateProgress(50);</script>
 <script src="data/publisher-counts.js"></script>
+<script> updateProgress(90);</script>
 <script src="data/countries.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/main.js"></script>
 <script>
+    updateProgress(100);
     $().ready(function() {
         init_page('publisher');
     })
