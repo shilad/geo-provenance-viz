@@ -5,7 +5,8 @@ GP.iso2countries = {};
 GP.countries = [];
 GP.entity = null;
 
-function init_page(entity) {
+function init_page(mode, entity) {
+    GP.mode = mode;
     GP.entity = entity;
 
     GP.countries = GP_COUNTRY_DATA;
@@ -43,21 +44,40 @@ GP.name2Iso = function(name) {
 
 GP.assignMapColor = function(v) {
     var color;
-    if (isNaN(v)) {
-        color = "#CCCCCC";
-    } else if (v < 0.002) {
-        color = "#FFFFFF";
-    } else if (v <= 0.02) {
-        color = "#CEDDEE";
-    } else if (v <= 0.10) {
-        color = "#93B9DB";
-    } else if (v <= 0.20) {
-        color = "#5D95C7";
-    } else if (v <= 0.50) {
-        color = "#3373B5";
+    if (GP.mode == 'geoprovenance') {
+        if (isNaN(v)) {
+            color = "#CCCCCC";
+        } else if (v < 0.002) {
+            color = "#FFFFFF";
+        } else if (v <= 0.02) {
+            color = "#CEDDEE";
+        } else if (v <= 0.10) {
+            color = "#93B9DB";
+        } else if (v <= 0.20) {
+            color = "#5D95C7";
+        } else if (v <= 0.50) {
+            color = "#3373B5";
+        } else {
+            color = "#004694";
+        }
     } else {
-        color = "#004694";
+        if (isNaN(v)) {
+            color = "#CCCCCC";
+        } else if (v < 0.002) {
+            color = "#FFFFFF";
+        } else if (v <= 0.10) {
+            color = "#CEDDEE";
+        } else if (v <= 0.25) {
+            color = "#93B9DB";
+        } else if (v <= 0.50) {
+            color = "#5D95C7";
+        } else if (v <= 0.75) {
+            color = "#3373B5";
+        } else {
+            color = "#004694";
+        }
     }
+
     return color;
 };
 
@@ -77,8 +97,15 @@ GP.update_map = function(lang, article_iso) {
         var n = pairs[i][1];
         counts[c] = n;
     }
-    var total = 0;
-    for (var c in counts) { total += counts[c]; }
+    var total;
+    if (GP.mode == 'geoprovenance') {
+        total = 0.0;
+        for (var c in counts) {
+            total += counts[c];
+        }
+    } else {
+        total = 1.0;    // numbers are localness, shouldn't be normalized.
+    }
 
     var colors = {};
     for (var c in counts) {
@@ -99,6 +126,7 @@ GP.update_map = function(lang, article_iso) {
             }]
         },
         onRegionTipShow   : function(e, el, code){
+            var name = el.html();
             var examples = GP_ITEMIZED_DATA.domains[code.toLowerCase()];
             var domains = '';
             if (examples) {
@@ -111,13 +139,23 @@ GP.update_map = function(lang, article_iso) {
                 if (domains) domains = '<br>Top domains: <ul>' + domains + '</ul>';
             }
             var action;
-            if (code == article_iso.toUpperCase()) {
-                action = 'Click to reset<br/>to all articles';
+            if (GP.mode == 'geoprovenance') {
+                if (code == article_iso.toUpperCase()) {
+                    action = 'Click to remove ' + name + ' filter';
+                } else {
+                    action = 'Click to filter to<br/>articles about ' + name;
+                }
             } else {
-                action = 'Click to only include <br/>articles about ' + el.html();
+                if (code == article_iso.toUpperCase()) {
+                    action = 'Click to remove ' + name + ' filter';
+                } else {
+                    action = 'Click to filter to<br/>articles about ' + name;
+                }
             }
+
             var p = (100.0 * counts[code.toLowerCase()] / total).toFixed(2);
-            el.html(el.html()+' ('+p+'%)<br/> ' + domains + action);
+            if (p == 'NaN') p = '0.00';
+            el.html(name +' ('+p+'%)<br/> ' + domains + action);
         },
         regionStyle : {
             initial: {
@@ -156,6 +194,11 @@ GP.update_map = function(lang, article_iso) {
     var map = canvas.empty().vectorMap(map_params);
     canvas.data('clicked', false);
 
+    // TODO: click on canvas resets map.
+    // The only way I can see to handle a
+    //canvas.find(".jvectormap-container > svg").bind('click', function() {
+    //});
+
     return false;
 };
 
@@ -163,9 +206,11 @@ GP.update_itemized_lists = function(lang, article_iso) {
 
     var data =  GP_ITEMIZED_DATA;
 
-    $(".itemized-data .itemized-countries tbody").html(
-        GP.make_itemized_rows(data.data.map(function (row) { return [GP.iso2name(row[0]), row[1]];}))
-    );
+    if (GP.mode == 'geoprovenance') {
+        $(".itemized-data .itemized-countries tbody").html(
+            GP.make_itemized_rows(data.data.map(function (row) { return [GP.iso2name(row[0]), row[1]];}))
+        );
+    }
     $(".itemized-data .itemized-articles tbody").html(
         GP.make_itemized_rows(data.articles, function(row) { return row[2];})
     );
@@ -251,31 +296,34 @@ GP.PARAM_DEFAULTS = {
 
 GP.location = function() { return window.history.location || window.location };
 
+/**
+ * This is done by hand instead of using jQuery to prevent an ajax call
+ */
+GP.loadScript = function(scriptId, scriptLocation, onLoad) {
+    $("#" + scriptId).remove();
+    var script = document.createElement("script");
+    script.src = scriptLocation;
+    script.id = scriptId;
+    script.onload = onLoad;
+    document.head.appendChild(script);
+};
 
 GP.onUrlChange = function() {
     try {
         var location = GP.location();
-        var params = {};
-        $.extend(params, GP.PARAM_DEFAULTS, GP.url2QueryObj(location.href));
+        var params = $.extend({}, GP.PARAM_DEFAULTS, GP.url2QueryObj(location.href));
 
-        // Show loading images
+        // Queue loading of script
         $(".itemized-data tbody").html("<tr><td>Loading...</td></tr>");
         $(".map-wrapper").spin("huge", "#fff");
-
-        // Queue up loading of itemized data.
-        // This is done by hand instead of using jQuery to prevent an ajax call
-        var lang = params.lang;
-        var article_iso = params.country;
-        $("#itemized-data-script").remove();
-        var script = document.createElement("script");
-        script.src = 'data/sources/' + lang + '/' + article_iso + '.js';
-        script.id = 'itemized-data-script';
-        script.onload = function () {
-            $(".map-wrapper").spin(false);
-            GP.update_map(lang, article_iso);
-            GP.update_itemized_lists(lang, article_iso);
-        };
-        document.head.appendChild(script);
+        GP.loadScript(
+            "itemized-data-script",
+            'data/' + GP.entity + '-' + GP.mode + '/' + params.lang + '/' + params.country + '.js',
+            function () {
+                $(".map-wrapper").spin(false);
+                GP.update_map(params.lang, params.country);
+                GP.update_itemized_lists(params.lang, params.country);
+            });
 
         // Mark appropriate href links as active.
         $("a.ajax").each(function () {
@@ -315,10 +363,9 @@ GP.updateUrl = function(changed_params) {
 
     // keep the link in the browser history
     var new_url = location.protocol + '//' + location.host + location.pathname + '?' + $.param(new_params);
-    history.pushState(null, null, new_url);
+    history.replaceState(null, null, new_url);
 
     GP.onUrlChange();
-
 };
 
 

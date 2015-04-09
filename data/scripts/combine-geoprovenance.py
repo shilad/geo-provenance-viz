@@ -57,7 +57,7 @@ def combine():
         for iso in ISOs:
             for s in ('sources', 'editors'):
                 r = combine_one(lang, iso, raw[s][lang][iso])
-                d = '../results/%s/combined/%s' % (s, lang)
+                d = '../results/%s/combined-geoprovenance/%s' % (s, lang)
                 if not os.path.exists(d): os.makedirs(d)
                 if s == 'editors': del(r['domains'])
                 js = json.dumps(r)

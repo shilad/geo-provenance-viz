@@ -4,7 +4,11 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/data/editors" />
+      <excludeFolder url="file://$MODULE_DIR$/data/source-geoprovenance" />
+      <excludeFolder url="file://$MODULE_DIR$/data/source-localness" />
       <excludeFolder url="file://$MODULE_DIR$/data/sources" />
+      <excludeFolder url="file://$MODULE_DIR$/data/sources-geoprovenance" />
+      <excludeFolder url="file://$MODULE_DIR$/data/sources-localness" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

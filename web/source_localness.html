@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>GeoProvenance of Wikipedia?</title>
+    <title>How Local is Wikipedia's Information?</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -32,29 +32,27 @@
 
 <div class="container geoprovenance">
     <div class="row controls">
-        <h1 class="col-md-12">
-            Where does Wikipedia's information come from?
-        </h1>
+        <h2 class="col-md-12">
+            How local is information in <span class="langName"></span> Wikipedia?
+        </h2>
     </div>
 
     <div class="row">
         <div class="instructions col-md-12">
-            <p>Eventually this page will host a general-audience audience version of our paper with embedded links to the visualizations.</p>
-            <ul>
-                <li><a href="source_geoprovenance.html">Source geoprovenance visualization</a></li>
-                <li><a href="source_localness.html">Source localness visualization</a></li>
-                <li><a href="#">Editor geoprovenance visualization</a> (under embargo)</li>
-                <li><a href="#">Editor localness visualization</a> (under embargo)</li>
-            </ul>
+            <p>This visualization shows the percentage of source citations in <span class="langName"></span> Wikipedia's articles about a country that are published locally by that country.
+                For example, it answers: <em>How many of the sources cited in articles about Mexico are published locally in Mexico?</em>
+                All URLs that appear in articles are considered sources, and their location is inferred using a novel <a href="https://github.com/shilad/geo-provenance/">geoprovenance inference algorithm</a>.
+                Click on a specific country to view more information about the articles and sources in that country.
+
+            <p>For more information, refer to our paper:<br/>
+            Shilad Sen, Heather Ford, Dave Musicant, Mark Graham, Oliver Keyes, and Brent Hecht. 2015. <a href="http://www-users.cs.umn.edu/~bhecht/publications/localnessgeography_CHI2015.pdf">Barriers to the Localness of Volunteered Geographic Information.</a> Proceedings of CHI 2015. New York: ACM Press.
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
             <h4 class="map-header">
-                Distribution of sources in
-                <span class="langName"></span> Wikipedia<span class="countryCaption">'s articles about&nbsp;<span class="countryName">Australia</span></span>
-                <small class="countryCaption">&nbsp;&nbsp;&nbsp;<a class="ajax" href="?country=all">show all articles</a></small>
+                Localness of sources in <span class="langName"></span> Wikipedia
             </h4>
             <p>
                 <!--Show: <a class="mode ajax" href="?mode=localness">localness</a> / <a class="mode ajax" href="?mode=geoprovenance">geoprovenance</a> of-->
@@ -153,23 +151,23 @@
                     <td rowspan="7" class="map-canvas"></td>
                     <td rowspan="7" class="legend-spacer"></td>
                     <td class="legend-box lb1">&nbsp;&nbsp;&nbsp;</td>
-                    <td class="legend-label">more than 50%</td>
+                    <td class="legend-label">more than 75%</td>
                 </tr>
                 <tr>
                     <td class="legend-box lb2"></td>
-                    <td class="legend-label">20%&nbsp;to&nbsp;50%</td>
+                    <td class="legend-label">50%&nbsp;to&nbsp;75%</td>
                 </tr>
                 <tr>
                     <td class="legend-box lb3"></td>
-                    <td class="legend-label">10%&nbsp;to&nbsp;20%</td>
+                    <td class="legend-label">25%&nbsp;to&nbsp;50%</td>
                 </tr>
                 <tr>
                     <td class="legend-box lb4"></td>
-                    <td class="legend-label">2%&nbsp;to&nbsp;10%</td>
+                    <td class="legend-label">10%&nbsp;to&nbsp;25%</td>
                 </tr>
                 <tr>
                     <td class="legend-box lb5"></td>
-                    <td class="legend-label">0%&nbsp;to&nbsp;2%</td>
+                    <td class="legend-label">0%&nbsp;to&nbsp;10%</td>
                 </tr>
                 <tr>
                     <td class="legend-box lb6"></td>
@@ -186,26 +184,8 @@
 
     <!-- Example row of columns -->
     <div class="row itemized-data">
-        <div class="col-md-4 col-xs-6">
-            <h4>Geography of sources</h4>
-            <table class="table table-condensed itemized-countries">
-                <thead>
-                <tr>
-                    <th>country</th>
-                    <th>citations</th>
-                    <th>%</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Loading...</td></tr>
-                </tbody>
-            </table>
-            <p>*Only includes sources in geo-tagged articles.
-                Source countries are distributional estimates and not exact.
-                See our paper for details.</p>
-        </div>
-        <div class="col-md-4 col-xs-6">
-            <h4>Most viewed articles</h4>
+        <div class="col-md-6">
+            <h4>Most viewed <span class="countryCaption"><span class="countryName"></span></span> articles </h4>
             <table class="table table-condensed itemized-articles">
                 <thead>
                 <tr>
@@ -222,8 +202,8 @@
                 Only includes in geo-tagged articles.
             </p>
         </div>
-        <div class="col-md-4 col-xs-6">
-            <h4>Most cited sources</h4>
+        <div class="col-md-6">
+            <h4>Most cited <span class="countryCaption"><span class="countryName"></span></span> sources</h4>
             <table class="table table-condensed itemized-sources">
                 <thead>
                 <tr>
@@ -275,7 +255,7 @@
 <script src="js/main.js"></script>
 <script>
     $().ready(function() {
-        init_page('geoprovenance', 'source');
+        init_page('localness', 'source');
     })
 </script>
 

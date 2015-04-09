@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>GeoProvenance of Wikipedia?</title>
+    <title>Where Does Wikipedia's Information Come From?</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -32,20 +32,22 @@
 
 <div class="container geoprovenance">
     <div class="row controls">
-        <h1 class="col-md-12">
-            Where does Wikipedia's information come from?
-        </h1>
+        <h2 class="col-md-12">
+            Where does <span class="langName"></span>
+            Wikipedia's information
+            <span class="countryCaption">about <span class="countryName"></span></span>
+            come from?
+        </h2>
     </div>
 
     <div class="row">
         <div class="instructions col-md-12">
-            <p>Eventually this page will host a general-audience audience version of our paper with embedded links to the visualizations.</p>
-            <ul>
-                <li><a href="source_geoprovenance.html">Source geoprovenance visualization</a></li>
-                <li><a href="source_localness.html">Source localness visualization</a></li>
-                <li><a href="#">Editor geoprovenance visualization</a> (under embargo)</li>
-                <li><a href="#">Editor localness visualization</a> (under embargo)</li>
-            </ul>
+            <p>This visualization shows the geography of source citations in <span class="langName"></span> Wikipedia's articles about places<span class="countryCaption">&nbsp;in <span class="countryName"></span></span>.
+                All URLs that appear in articles are considered sources, and their location is inferred using a novel <a href="https://github.com/shilad/geo-provenance/">geoprovenance inference algorithm</a>.
+                Click a specific country to drill down to articles about it.
+
+            <p>For more information, refer to our paper:<br/>
+            Shilad Sen, Heather Ford, Dave Musicant, Mark Graham, Oliver Keyes, and Brent Hecht. 2015. <a href="http://www-users.cs.umn.edu/~bhecht/publications/localnessgeography_CHI2015.pdf">Barriers to the Localness of Volunteered Geographic Information.</a> Proceedings of CHI 2015. New York: ACM Press.
         </div>
     </div>
 
