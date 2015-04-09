@@ -3,7 +3,6 @@ window.GP = window.GP || {};
 
 GP.iso2countries = {};
 GP.countries = [];
-GP.counts = [];
 GP.entity = null;
 
 function init_page(entity) {
@@ -15,13 +14,6 @@ function init_page(entity) {
     });
     console.log('loaded ' + GP.countries.length + ' countries');
 
-    if (entity == 'editor') {
-        GP.counts = GP_EDITOR_DATA;
-    } else if (entity == 'publisher') {
-        GP.counts = GP_PUBLISHER_DATA;
-    } else {
-        alert("unknown entity: " + entity);
-    }
     GP.initHistory();
     GP.initEvents();
     GP.onUrlChange();   // manually trigger a refresh
@@ -55,38 +47,18 @@ GP.assignMapColor = function(v) {
         color = "#CCCCCC";
     } else if (v < 0.002) {
         color = "#FFFFFF";
-    } else if (v < 0.01) {
-        color = "#E6EEF6";
     } else if (v <= 0.02) {
         color = "#CEDDEE";
-    } else if (v <= 0.05) {
-        color = "#93B9DB";
     } else if (v <= 0.10) {
-        color = "#5D95C7";
+        color = "#93B9DB";
     } else if (v <= 0.20) {
-        color = "#3373B5";
+        color = "#5D95C7";
     } else if (v <= 0.50) {
-        color = "#305BA2";
+        color = "#3373B5";
     } else {
         color = "#004694";
     }
     return color;
-};
-
-GP.queue_update = function(lang, article_iso) {
-    // Queue up loading of itemized data.
-    // This is done by hand instead of using jQuery to prevent an ajax call
-    $(".itemized-data tbody").html("<tr><td>Loading...</td></tr>");
-    $("#itemized-data-script").remove();
-
-    var script = document.createElement("script");
-    script.src = 'data/sources/' + lang + '/' + article_iso + '.js';
-    script.id = 'itemized-data-script';
-    script.onload = function () {
-        GP.update_map(lang, article_iso);
-        GP.update_itemized_lists(lang, article_iso);
-    };
-    document.head.appendChild(script);
 };
 
 GP.update_map = function(lang, article_iso) {
@@ -114,6 +86,8 @@ GP.update_map = function(lang, article_iso) {
         colors[c.toUpperCase()] = GP.assignMapColor(v);
     }
 
+    var canvas = $('.map-canvas:first-of-type');
+
     var map_params = {
         backgroundColor: '#000',
         map: 'world_mill_en',
@@ -138,7 +112,7 @@ GP.update_map = function(lang, article_iso) {
             }
             var action;
             if (code == article_iso.toUpperCase()) {
-                action = 'Click to include<br/>all articles';
+                action = 'Click to reset<br/>to all articles';
             } else {
                 action = 'Click to only include <br/>articles about ' + el.html();
             }
@@ -162,6 +136,9 @@ GP.update_map = function(lang, article_iso) {
             }
         },
         onRegionClick : function(ev, iso) {
+            if (canvas.data('clicked')) return;
+            canvas.data('clicked', true);
+
             $(".jvectormap-tip").remove();
             iso = iso.toLowerCase();
             var params = GP.url2QueryObj(GP.location().href);
@@ -176,7 +153,8 @@ GP.update_map = function(lang, article_iso) {
         map_params.selectedRegions = article_iso.toUpperCase();
         map_params.regionStyle.selected.fill = colors[article_iso.toUpperCase()];
     }
-    var map = $('.map-canvas:first-of-type').empty().vectorMap(map_params);
+    var map = canvas.empty().vectorMap(map_params);
+    canvas.data('clicked', false);
 
     return false;
 };
@@ -186,7 +164,7 @@ GP.update_itemized_lists = function(lang, article_iso) {
     var data =  GP_ITEMIZED_DATA;
 
     $(".itemized-data .itemized-countries tbody").html(
-        GP.make_itemized_rows(data.data, null)
+        GP.make_itemized_rows(data.data.map(function (row) { return [GP.iso2name(row[0]), row[1]];}))
     );
     $(".itemized-data .itemized-articles tbody").html(
         GP.make_itemized_rows(data.articles, function(row) { return row[2];})
@@ -279,7 +257,25 @@ GP.onUrlChange = function() {
         var location = GP.location();
         var params = {};
         $.extend(params, GP.PARAM_DEFAULTS, GP.url2QueryObj(location.href));
-        GP.queue_update(params.lang, params.country);
+
+        // Show loading images
+        $(".itemized-data tbody").html("<tr><td>Loading...</td></tr>");
+        $(".map-wrapper").spin("huge", "#fff");
+
+        // Queue up loading of itemized data.
+        // This is done by hand instead of using jQuery to prevent an ajax call
+        var lang = params.lang;
+        var article_iso = params.country;
+        $("#itemized-data-script").remove();
+        var script = document.createElement("script");
+        script.src = 'data/sources/' + lang + '/' + article_iso + '.js';
+        script.id = 'itemized-data-script';
+        script.onload = function () {
+            $(".map-wrapper").spin(false);
+            GP.update_map(lang, article_iso);
+            GP.update_itemized_lists(lang, article_iso);
+        };
+        document.head.appendChild(script);
 
         // Mark appropriate href links as active.
         $("a.ajax").each(function () {

@@ -11,7 +11,7 @@
 
 
 body {
-   color: #888;
+   color: #777;
 }
 
 h1,h2,h3,h4,h5 {
@@ -82,21 +82,19 @@ b {
 }
 
 .legend-box.lb1 { background-color: rgb(0, 70, 148); }
-.legend-box.lb2 { background-color: rgb(48, 91, 162); }
-.legend-box.lb3 { background-color: rgb(51, 115, 181); }
-.legend-box.lb4 { background-color: rgb(93, 149, 199); }
-.legend-box.lb5 { background-color: rgb(147, 185, 219); }
-.legend-box.lb6 { background-color: rgb(206, 221, 238); }
-.legend-box.lb7 { background-color: rgb(230, 238, 246); }
-.legend-box.lb8 { background-color: rgb(255, 255, 255); }
-.legend-box.lb9 { background-color: rgb(204, 204, 204); }
+.legend-box.lb2 { background-color: rgb(51, 115, 181); }
+.legend-box.lb3 { background-color: rgb(93, 149, 199); }
+.legend-box.lb4 { background-color: rgb(147, 185, 219); }
+.legend-box.lb5 { background-color: rgb(206, 221, 238); }
+.legend-box.lb6 { background-color: rgb(255, 255, 255); }
+.legend-box.lb7 { background-color: rgb(204, 204, 204); }
 
 div.row.itemized-data {
    padding-top: 10px;
 }
 
 .itemized-data  {
-   font-size: 11px;
+   font-size: 12px;
 }
 .itemized-data td {
    padding: 4px !important;

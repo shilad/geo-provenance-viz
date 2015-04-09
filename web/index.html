@@ -15,7 +15,7 @@
     <style>
         body {
             padding-top: 0;
-            padding-bottom: 20px;
+            padding-bottom: 0;
         }
     </style>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
@@ -32,20 +32,46 @@
 
 <div class="container">
     <div class="row controls">
-        <p class="col-md-12">
-            <!--Show: <a class="mode ajax" href="?mode=localness">localness</a> / <a class="mode ajax" href="?mode=geoprovenance">geoprovenance</a> of-->
-            <!--<a class="mode ajax" href="?entity=editors">editors</a> / <a class="mode ajax" href="?entity=sources">sources</a> <br/>-->
-            Select Wikipedia language edition:
-            <a class="lang ajax" href="?lang=all">All</a>,
-            <a class="lang ajax" href="?lang=en">English</a>,
-            <a class="lang ajax" href="?lang=fr">French</a>,
-            <a class="lang ajax" href="?lang=it">Italian</a>,
-            <a class="lang ajax" href="?lang=de">German</a>,
-            <a class="lang ajax" href="?lang=ru">Russian</a>,
-            <a class="lang ajax" href="?lang=ja">Japanese</a>,
-            <a class="lang ajax" href="?lang=vi">Vietnamese</a>,
+        <h2 class="col-md-12">
+            Where does <span class="langName"></span>
+            Wikipedia's information
+            <span class="countryCaption">about <span class="countryName"></span></span>
+            come from?
+        </h2>
+    </div>
 
-            <a class="moreLangs moreLangsToggle" href="?lang=more">more..</a>
+    <div class="row">
+        <div class="instructions col-md-12">
+            <p>This visualization shows the geography of source citations in <span class="langName"></span> Wikipedia's articles about places<span class="countryCaption">&nbsp;in <span class="countryName"></span></span>.
+                All URLs that appear in articles are considered sources, and their location is inferred using a novel <a href="https://github.com/shilad/geo-provenance/">geoprovenance inference algorithm</a>.
+                Click a specific country to drill down to articles about it.
+
+            <p>For more information, refer to our paper:
+            Sen, S., Ford, H., Musicant, D., Graham, M., Keyes, O., and Hecht, B. 2015. <a href="http://www-users.cs.umn.edu/~bhecht/publications/localnessgeography_CHI2015.pdf">Barriers to the Localness of Volunteered Geographic Information.</a> Proceedings of CHI 2015. New York: ACM Press.
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="map-header">
+                Distribution of sources in
+                <span class="langName"></span> Wikipedia<span class="countryCaption">'s articles about&nbsp;<span class="countryName">Australia</span></span>
+                <small class="countryCaption">&nbsp;&nbsp;&nbsp;<a class="ajax" href="?country=all">show all articles</a></small>
+            </h4>
+            <p>
+                <!--Show: <a class="mode ajax" href="?mode=localness">localness</a> / <a class="mode ajax" href="?mode=geoprovenance">geoprovenance</a> of-->
+                <!--<a class="mode ajax" href="?entity=editors">editors</a> / <a class="mode ajax" href="?entity=sources">sources</a> <br/>-->
+                Select Wikipedia language edition:
+                <a class="lang ajax" href="?lang=all">All</a>,
+                <a class="lang ajax" href="?lang=en">English</a>,
+                <a class="lang ajax" href="?lang=fr">French</a>,
+                <a class="lang ajax" href="?lang=it">Italian</a>,
+                <a class="lang ajax" href="?lang=de">German</a>,
+                <a class="lang ajax" href="?lang=ru">Russian</a>,
+                <a class="lang ajax" href="?lang=ja">Japanese</a>,
+                <a class="lang ajax" href="?lang=vi">Vietnamese</a>,
+
+                <a class="moreLangs moreLangsToggle" href="?lang=more">more..</a>
             <span class="moreLangsToggle">
                 <a class="lang ajax" href="?lang=pl">Polish</a>,
                 <a class="lang ajax" href="?lang=uk">Ukrainian</a>,
@@ -118,33 +144,7 @@
                 <a class="lang ajax" href="?lang=map-bms">Banyumasan</a>,
                 <a class="moreLangs" href="#">less..</a>
             </span>
-        </p>
-        <h2 class="col-md-12">
-            Where does <span class="langName"></span>
-            Wikipedia's information
-            <span class="countryCaption">about <span class="countryName"></span></span>
-            come from?
-        </h2>
-    </div>
-
-    <div class="row">
-        <div class="instructions col-md-12">
-            <p>This visualization shows the geography of source citations in <span class="langName"></span> Wikipedia's articles about places<span class="countryCaption">&nbsp;in <span class="countryName"></span></span>.
-                All URLs that appear in articles are considered sources, and their location is inferred using a novel <a href="https://github.com/shilad/geo-provenance/">geoprovenance inference algorithm</a>.
-                Click a specific country to drill down to articles about it.
-
-            <p>For more information, refer to our paper:
-            Sen, S., Ford, H., Musicant, D., Graham, M., Keyes, O., and Hecht, B. 2015. <a href="http://www-users.cs.umn.edu/~bhecht/publications/localnessgeography_CHI2015.pdf">Barriers to the Localness of Volunteered Geographic Information.</a> Proceedings of CHI 2015. New York: ACM Press.
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <h4 class="map-header">
-                Worldwide distribution of sources cited in
-                <span class="langName"></span> Wikipedia's spatial articles<span class="countryCaption">&nbsp;about&nbsp;<span class="countryName">Australia</span></span>
-                <small class="countryCaption">&nbsp;&nbsp;&nbsp;<a class="ajax" href="?country=all">show all articles</a></small>
-            </h4>
+            </p>
         </div>
     </div>
     <div class="row">
@@ -152,8 +152,8 @@
             <table class="map-table">
                 <tbody>
                 <tr>
-                    <td rowspan="9" class="map-canvas"></td>
-                    <td rowspan="9" class="legend-spacer"></td>
+                    <td rowspan="7" class="map-canvas"></td>
+                    <td rowspan="7" class="legend-spacer"></td>
                     <td class="legend-box lb1">&nbsp;&nbsp;&nbsp;</td>
                     <td class="legend-label">&ge;&nbsp;50%</td>
                 </tr>
@@ -171,22 +171,14 @@
                 </tr>
                 <tr>
                     <td class="legend-box lb5"></td>
-                    <td class="legend-label">&lt;&nbsp;5%</td>
-                </tr>
-                <tr>
-                    <td class="legend-box lb6"></td>
                     <td class="legend-label">&lt;&nbsp;2%</td>
                 </tr>
                 <tr>
-                    <td class="legend-box lb7"></td>
-                    <td class="legend-label">&lt;&nbsp;1%</td>
-                </tr>
-                <tr>
-                    <td class="legend-box lb8"></td>
+                    <td class="legend-box lb6"></td>
                     <td class="legend-label">&nbsp;&nbsp;&nbsp;0%</td>
                 </tr>
                 <tr>
-                    <td class="legend-box lb9"></td>
+                    <td class="legend-box lb7"></td>
                     <td class="legend-label">no data</td>
                 </tr>
                 </tbody>
@@ -256,43 +248,24 @@
 
 <script src="js/vendor/jquery-1.11.2.min.js"></script>
 <script src="js/vendor/bootstrap.min.js"></script>
-
+<script src="js/vendor/spin.min.js"></script>
+<script src="js/vendor/jquery.spin.js"></script>
 <script>
-    var updateProgress = function(percent) {
-        if (percent == 100) {
-            $("#progressouter").removeClass("active");
-            $("#progress").html("Done");
-        } else {
-            /* update the progress bar width */
-            $("#progress").css('width',percent+'%');
-            /* and display the numeric value */
-            $("#progress").html(percent+'%');
-        }
-    };
-
-    updateProgress(10);
+    $.fn.spin.presets.huge = { lines: 10, length: 30, width: 10, radius: 25 };
+    $(".map-wrapper").spin("huge", "#fff");
 </script>
-
 <script src="js/vendor/jquery-deparam.js"></script>
 <script src="js/vendor/history.min.js"></script>
-
-<script> updateProgress(20);</script>
-
 <script src="js/vendor/jquery-jvectormap-2.0.2.min.js"></script>
 <script src="js/vendor/jquery-jvectormap-world-mill-en.js"></script>
-<script> updateProgress(30);</script>
 
 <script src="js/plugins.js"></script>
 
 <script src="data/wplangs.js"></script>
-<script> updateProgress(50);</script>
-<script src="data/publisher-counts.js"></script>
-<script> updateProgress(90);</script>
 <script src="data/countries.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/main.js"></script>
 <script>
-    updateProgress(100);
     $().ready(function() {
         init_page('publisher');
     })
