@@ -1,12 +1,14 @@
 #!/usr/bin/python -O
 
+from collections import defaultdict 
+
 import io
 import json
 import os
 
-NUM_ARTICLES = 100
-NUM_ALL_DOMAINS = 100
-NUM_OTHER_DOMAINS = 5
+NUM_ARTICLES = 30
+NUM_ALL_DOMAINS = 30
+NUM_OTHER_DOMAINS = 3
 
 """
 Creates a series of files with paths: lang/country.js
@@ -46,10 +48,15 @@ for line in io.open('../raw/geonames.txt', encoding='utf-8'):
     ISOs.add(iso)
 
 def combine():
+    raw = {
+        'sources' : read_raw_source_data(),
+        'editors' : defaultdict(lambda: defaultdict(list))
+    }
     for lang in LANGS:
+        print 'doing', lang
         for iso in ISOs:
-            r = combine_one(lang, iso)
             for s in ('sources', 'editors'):
+                r = combine_one(lang, iso, raw[s][lang][iso])
                 d = '../results/%s/combined/%s' % (s, lang)
                 if not os.path.exists(d): os.makedirs(d)
                 if s == 'editors': del(r['domains'])
@@ -81,9 +88,33 @@ def prune_top(top, k, min_item_count=0, min_total_count=0):
         pruned.append(['other', remaining])
      
     return pruned
-    
 
-def combine_one(lang, c1):
+
+def read_raw_source_data():
+    f = io.open('../raw/publisher-counts.js', 'r', encoding='utf-8')
+    s = f.read().strip()
+    f.close()
+    i = s.find('[[')
+    s = s[i:-1]
+    data = json.loads(s)
+    counts = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    for row in json.loads(s):
+        (lang2, c1, _, c2, _, _, n) = row
+        for lang_key, country_key in [(lang2, c1), ('all', c1), (lang2, 'all'), ('all', 'all')]:
+            counts[lang_key][country_key][c2] += n
+
+    # translate count dictionaries to sorted 2-tuples
+    results = defaultdict(lambda: defaultdict(list))
+
+    for lang in counts:
+        for c1 in counts[lang]:
+            items = list(counts[lang][c1].items())
+            items.sort(lambda i1, i2: i2[1] - i1[1])
+            results[lang][c1] = items
+
+    return results
+
+def combine_one(lang, c1, raw):
     p = '../results/sources/articles/%s/%s.js' % (lang, c1)
     articles = []
     if os.path.isfile(p):
@@ -104,6 +135,7 @@ def combine_one(lang, c1):
     return  {
         'articles' : articles,
         'domains' : domains,
+        'data' : raw
     }
 
 
