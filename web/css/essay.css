@@ -6,11 +6,11 @@ h1 {
     font-size: 36px;
 }
 .essay .essay-text {
-    font-weight: 500;
     padding-left: 0;
     font-size: 16px;
     font-family: georgia,"times new roman",times,serif;
     line-height: 1.6;
+    color: #555;
 }
 
 .essay .essay-text p {
@@ -21,6 +21,7 @@ h1 {
     font-style: italic;
     margin: 0 0 20px 40px;
     font-size: 15px;
+    color: #777;
 }
 
 div.figure, div.narrow-figure {
