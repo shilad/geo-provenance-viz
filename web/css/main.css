@@ -121,3 +121,19 @@ div.row.itemized-data {
 }
 
 span.moreLangsToggle { display : none; }
+
+.navbar li.share-icons {
+   margin-left: 40px;
+   width: 140px;
+}
+
+.navbar li.share-icons a {
+   margin-top: 7px;
+   width: 32px;
+   display: inline-block;
+   color: #fff;
+}
+
+div.popout {
+   display: none;
+}

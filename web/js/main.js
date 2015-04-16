@@ -5,6 +5,27 @@ GP.iso2countries = {};
 GP.countries = [];
 GP.entity = null;
 
+GP.initShare = function() {
+    if (document.URL.indexOf('nonav=true') >= 0) {
+        $("nav").remove();
+        $("body").css('padding-top', '0');
+        $(".popout").show();
+        $("div.popout a").attr('href', function () {
+            return document.URL.replace('nonav=true&', '').replace('nonav=true', '');
+        });
+    } else {
+        // replace a reference to the URL variable with the actual url
+        $("a.fancy-share").attr('href', function (i, href) {
+            return href.replace('URL', document.URL);
+        }).on('click', function () {
+            var href = $(this).attr('href');
+            window.open(href, '_blank', 'width = 500, height = 500');
+            return false;
+        });
+    }
+
+};
+
 function init_page(mode, entity) {
     GP.mode = mode;
     GP.entity = entity;
@@ -20,7 +41,7 @@ function init_page(mode, entity) {
     GP.onUrlChange();   // manually trigger a refresh
 }
 
-GP.iso2name = function(iso) { return GP.iso2countries[iso.toLowerCase()].name; }
+GP.iso2name = function(iso) { return GP.iso2countries[iso.toLowerCase()].name; };
 
 GP.name2Iso = function(name) {
     if (name == 'all') {

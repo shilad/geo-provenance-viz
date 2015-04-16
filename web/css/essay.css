@@ -17,11 +17,14 @@ h1 {
     max-width: 800px;
 }
 
-.essay p.preamble {
+.essay p.preamble, .essay p.signature {
     font-style: italic;
     margin: 0 0 20px 40px;
     font-size: 15px;
     color: #777;
+}
+.essay p.preamble {
+    margin: 10px 0 30px 0;
 }
 
 div.figure, div.narrow-figure {
@@ -64,3 +67,6 @@ div.narrow-figure p.caption {
     margin-top: 5px;
     width: 300px;
 }
+
+ul.authors span.author-name { color: black; font-weight: 500; }
+ul.authors li { text-align: center; }

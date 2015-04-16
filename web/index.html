@@ -19,6 +19,8 @@
         }
     </style>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap-social.css">
 
     <link rel="stylesheet" href="js/vendor/jquery-jvectormap-2.0.2.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="js/vendor/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
@@ -42,26 +44,46 @@
             <li role="presentation"><a href="source_localness.html">Localness visualization</a></li>
             <li role="presentation"><a href="source_geoprovenance.html">Geoprovenance visualization</a></li>
             <li role="presentation"><a href="geoprovenance_CHI2015.pdf">CHI 2015 paper</a></li>
+            <li role="presentation" class="share-icons">
+                <a href="http://twitter.com/share?url=URL&hashtags=geoprovenance"
+                   class="btn btn-social-icon btn-twitter fancy-share">
+                    <i class="fa fa-twitter"></i></a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=URL"
+                   class="btn btn-social-icon btn-facebook fancy-share">
+                    <i class="fa fa-facebook"></i></a>
+                <a href="https://plus.google.com/share?url=URL"
+                   class="btn btn-social-icon btn-google-plus fancy-share">
+                    <i class="fa fa-google-plus"></i></a>
+            </li>
         </ul>
     </div>
 </nav>
+<div class="container popout"><a href="#" target="_blank">Open in new window.</a></div>
 
 <div class="container geoprovenance">
     <div class="row controls">
         <h1 class="col-md-12">
             Where does Wikipedia's information come from?
         </h1>
+        <ul class="col-md-12 authors list-inline">
+            <li class="col-md-4"><span class="author-name">Shilad Sen</span> <span class="author-institution">(Macalester College)</span></li>
+            <li class="col-md-4"><span class="author-name">Heather Ford</span> <span class="author-institution">(Oxford University)</span></li>
+            <li class="col-md-4"><span class="author-name">David R. Musicant</span> <span class="author-institution">(Carleton College)</span></li>
+            <li class="col-md-4"><span class="author-name">Mark Graham</span> <span class="author-institution">(Oxford University)</span></li>
+            <li class="col-md-4"><span class="author-name">Oliver S. B. Keyes</span> <span class="author-institution">(Wikimedia Foundation)</span></li>
+            <li class="col-md-4"><span class="author-name">Brent Hecht</span> <span class="author-institution">(University of Minnesota)</span></li>
+        </ul>
     </div>
     <div class="essay col-md-12">
       <div class="essay-text">
 <p class="preamble">
-This interactive essay is a general audience adaptation of a paper that will appear at CHI 2015. 
-We have embedded three visualizations throughout the paper (also available in the top nav bar).
-We are also <a href="https://meta.wikimedia.org/wiki/Research:Geo-aggregation_of_Wikipedia_edits">actively working</a> to anonymize and release the editor dataset and visualization.
-Some details have been omitted for clarity. For more information, see: Shilad Sen, Heather Ford, Dave Musicant, Mark Graham,
-        Oliver Keyes, and Brent Hecht. 2015.  <a href="http://www-users.cs.umn.edu/~bhecht/publications/localnessgeography_CHI2015.pdf">
+I created this interactive essay as a general audience adaptation of our CHI 2015 paper.
+Three visualizations are embedded throughout the paper (and also available in the top nav bar).
+We are <a href="https://meta.wikimedia.org/wiki/Research:Geo-aggregation_of_Wikipedia_edits">actively working</a> to anonymize and release the editor dataset and visualization.
+Some details have been omitted for clarity, but you can find them in our paper: <a href="http://www-users.cs.umn.edu/~bhecht/publications/localnessgeography_CHI2015.pdf">
         <em>Barriers to the Localness of Volunteered Geographic Information.</em>
     </a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;<a href="http://www.shilad.com">Shilad Sen</a>
 </p>
 <div class="figure" id="intro-figs">
   <img border="0" width="450" src="img/world-articles-small.png" class="fancybox"/></a>
@@ -103,7 +125,7 @@ Places that have weaker economies, lower literacy rates, or less broadband penet
 <p>
 <strong>Our research studies <em>where</em> information in Wikipedia comes from</strong> , which we call <strong>geoprovenance</strong>. 
 We focus on the four million Wikipedia articles about places that, along with information such as TripAdvisor reviews and geotagged flickr images, constitutes the rising class of information renowned geographer Michael Goodchild calls    <em>volunteered geographic information</em> (VGI). 
-As some have argued [11, 19], VGI does not just represent the world, but also becomes part of the world.
+As some have argued [Kitchin and Dodge, 2011; Graham et al., 2013], VGI does not just represent the world, but also becomes part of the world.
 It forms layers of code and information that augment everyday activities: it shapes where we go, what we do, and how we perceive and understand the world that we live in. 
 The study of geoprovenance, which we undertake here, helps us understand the perspectives, gaps, and inequalities in VGI repositories.
 </p>
@@ -116,7 +138,7 @@ To analyze editor geoprovenance, we studied over five million edits to 39 differ
 Each edit was    <a href="http://www.ipinfodb.com/my_ip_location.php">geolocated</a> using the editor's IP address and aggregated to preserve anonymity.
 </p>
 <div class="narrow-figure">
-    <a href="demo.html?url=http%3A%2F%2Fwhc.unesco.org%2Fen%2Flist%2F1293" class="fancybox"><img border="0" width="300" src="img/geoprov-alg-small.png"/></a>
+    <a href="demo.html?nonav=true&url=http%3A%2F%2Fwhc.unesco.org%2Fen%2Flist%2F1293" class="fancybox"><img border="0" width="300" src="img/geoprov-alg-small.png"/></a>
   <p class="caption">
       A demonstration of the geoprovenance inference algorithm for <a href="http://whc.unesco.org/en/list/1293">http://whc.unesco.org/en/list/1293</a>. These images are taken from our                    <a href="http://">interactive demo</a>. The top map (in blue) shows the final results, which correctly predicts France as the publisher
       country. The bottom two maps show two components of the algorithm: the countries most likely to publish English sources (in green), and the
@@ -273,9 +295,9 @@ For example, if there are many migrants from India to the Germany, the model pre
 </h1>
 <p>
     This research offers the first large-scale study of the forces shaping the localness of VGI.
-    The primary role that SES factors play in localness suggests
-    that VGI may not be the equalizing panacea that
-    it has been portrayed as being. Instead, VGI appears to
+    The evidence we find in support of socioeconomic barriers to VGI suggest that it may not be the equalizing panacea that
+    it has been portrayed as being.
+    Instead, VGI appears to
     follow many of the same structural barriers to equality
     as traditional expert-curated systems, although research
     must determine whether the strength of these barriers
@@ -291,12 +313,14 @@ For example, if there are many migrants from India to the Germany, the model pre
 </h1>
 <ol class="references">
     <li>Cheng, Zhiyuan, James Caverlee, and Kyumin Lee. "You are where you tweet: a content-based approach to geo-locating twitter users." Proceedings of the 19th ACM international conference on Information and knowledge management. ACM, 2010.</li>
-    <li> Fischer, Eric, "Locals and Tourists", 2010.</li>
+    <li>Fischer, Eric, "Locals and Tourists", 2010.</li>
+    <li>Graham, Mark, and Bernie Hogan. "Uneven Openness: Barriers to MENA Representation on Wikipedia." Graham, M., and Hogan, B (2014).</li>
+    <li>Graham, Mark, Matthew Zook, and Andrew Boulton. "Augmented reality in urban places: contested content and the duplicity of code." Transactions of the Institute of British Geographers 38.3 (2013): 464-479.</li>
     <li>Hardy, Darren, James Frew, and Michael F. Goodchild. "Volunteered geographic information production as a spatial process." International Journal of Geographical Information Science 26.7 (2012): 1191-1212.</li>
     <li>Hecht, Brent, and Darren Gergle. "Measuring self-focus bias in community-maintained knowledge repositories." Proceedings of the fourth international conference on Communities and technologies. ACM, 2009.</li>
     <li>Hecht, Brent, and Darren Gergle. "The tower of Babel meets web 2.0: user-generated content and its applications in a multilingual context." Proceedings of the SIGCHI conference on human factors in computing systems. ACM, 2010.</li>
     <li>Helft, Miguel. "Online maps: Everyman offers new directions." New York Times (2009).</li>
-    <li>Graham, Mark, and Bernie Hogan. "Uneven Openness: Barriers to MENA Representation on Wikipedia." Graham, M., and Hogan, B (2014).</li>
+    <li>Kitchin, Rob, and Martin Dodge. Code/space: Software and everyday life. Mit Press, 2011.</li>
     <li>Obermeyer, Nancy J. "The evolution of public participation GIS." Cartography and Geographic Information Systems 25.2 (1998): 65-66.</li>
     <li>Yasseri, Taha, et al. "The most controversial topics in Wikipedia: A multilingual and geographical analysis." (2014).</li>
 </ol>
@@ -311,9 +335,11 @@ For example, if there are many migrants from India to the Germany, the model pre
 <script src="js/vendor/jquery-1.11.2.min.js"></script>
 <script src="js/vendor/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/vendor/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<script src="js/main.js"></script>
 
 <script>
         $(document).ready(function() {
+            GP.initShare();
             $("img.fancybox").each(function () {
                 var src = $(this).attr('src').replace('small', 'large');
                 var title = $(this).next('p.caption').html();
@@ -326,7 +352,6 @@ For example, if there are many migrants from India to the Germany, the model pre
             var w = $(window).width();
             var h = $(window).height();
             var l = $("a.fancybox").fancybox({type: 'iframe', width: (w-50), height: (h-100)});
-            console.log(l.length);
         });
 </script>
 

@@ -14,11 +14,13 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
         body {
-            padding-top: 0;
-            padding-bottom: 0;
+            padding-top: 50px;
+            padding-bottom: 15px;
         }
     </style>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap-social.css">
 
     <link rel="stylesheet" href="js/vendor/jquery-jvectormap-2.0.2.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="css/main.css">
@@ -29,6 +31,31 @@
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <ul class="nav navbar-nav">
+            <li role="presentation"><a href="index.html">Home</a></li>
+            <li role="presentation"><a href="demo.html">Inference algorithm</a></li>
+            <li role="presentation"><a href="source_localness.html">Localness visualization</a></li>
+            <li role="presentation" class="active"><a href="source_geoprovenance.html">Geoprovenance visualization</a></li>
+            <li role="presentation"><a href="geoprovenance_CHI2015.pdf">CHI 2015 paper</a></li>
+            <li role="presentation" class="share-icons">
+                <a href="http://twitter.com/share?url=URL&hashtags=geoprovenance"
+                   class="btn btn-social-icon btn-twitter fancy-share">
+                    <i class="fa fa-twitter"></i></a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=URL"
+                   class="btn btn-social-icon btn-facebook fancy-share">
+                    <i class="fa fa-facebook"></i></a>
+                <a href="https://plus.google.com/share?url=URL"
+                   class="btn btn-social-icon btn-google-plus fancy-share">
+                    <i class="fa fa-google-plus"></i></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container popout"><a href="#" target="_blank">Open in new window.</a></div>
 
 <div class="container geoprovenance">
     <div class="row controls">
@@ -277,6 +304,7 @@
 <script src="js/main.js"></script>
 <script>
     $().ready(function() {
+        GP.initShare();
         init_page('geoprovenance', 'source');
     })
 </script>
