@@ -17,7 +17,8 @@ h1 {
     max-width: 800px;
 }
 
-.essay p.preamble, .essay p.signature {
+.essay p.preamble {
+    max-width: 100%;
     font-style: italic;
     margin: 0 0 20px 40px;
     font-size: 15px;
