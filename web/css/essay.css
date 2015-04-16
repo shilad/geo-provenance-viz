@@ -1,0 +1,65 @@
+.essay {
+    padding-left: 0;
+}
+h1 {
+    margin: 30px 0 20px 0;
+    font-size: 36px;
+}
+.essay .essay-text {
+    font-weight: 500;
+    padding-left: 0;
+    font-size: 16px;
+    font-family: georgia,"times new roman",times,serif;
+    line-height: 1.6;
+}
+
+.essay .essay-text p {
+    max-width: 800px;
+}
+
+.essay p.preamble {
+    font-style: italic;
+    margin: 0 0 20px 40px;
+    font-size: 15px;
+}
+
+div.figure, div.narrow-figure {
+    float: right;
+    padding-left: 25px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+div.figure {
+    width: 450px;
+}
+div.narrow-figure {
+    width: 300px;
+}
+
+div.figure img.stacked, div.narrow-figure img.stacked {
+    margin-top: 20px;
+}
+
+ol.references {
+    padding-left: 20px;
+}
+.essay .references li {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+.fancybox-title {
+    font-size: 16px;
+}
+
+div.figure p.caption {
+    margin-top: 5px;
+    width: 450px;
+}
+
+div.narrow-figure p.caption {
+    margin-top: 5px;
+    width: 300px;
+}
