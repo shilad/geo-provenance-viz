@@ -17,6 +17,11 @@ h1 {
     max-width: 800px;
 }
 
+.essay .essay-text p b {
+    color: black;
+    font-weight: 600;
+}
+
 .essay p.preamble {
     max-width: 100%;
     font-style: italic;
@@ -70,4 +75,4 @@ div.narrow-figure p.caption {
 }
 
 ul.authors span.author-name { color: black; font-weight: 500; }
-ul.authors li { text-align: center; }
+ul.authors li { text-align: center; margin-bottom: 5px; }

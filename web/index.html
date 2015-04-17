@@ -91,7 +91,7 @@
 <div class="container geoprovenance">
     <div class="row controls">
         <h1 class="col-md-12">
-            Where does Wikipedia's information come from?
+            Where does information in Wikipedia come from?
         </h1>
         <ul class="col-md-12 authors list-inline">
             <li class="col-md-4"><span class="author-name">Shilad Sen</span> <span class="author-institution">(Macalester College)</span></li>
@@ -105,8 +105,8 @@
     <div class="essay col-md-12">
       <div class="essay-text">
 <p class="preamble">
-I created this interactive essay as a general audience adaptation of our CHI 2015 paper.
-Three visualizations are embedded throughout the paper (and also available in the top nav bar).
+This interactive essay is a general audience adaptation of our CHI 2015 paper.
+<b>Three visualizations</b> are embedded throughout the paper (and also available in the top nav bar).
 We are <a href="https://meta.wikimedia.org/wiki/Research:Geo-aggregation_of_Wikipedia_edits">actively working</a> to anonymize and release the editor dataset and visualization.
 Until we can, the editor visualizations (shown in green) are static images.
 You can find details that have been omitted for clarity in our paper: <a href="http://www-users.cs.umn.edu/~bhecht/publications/localnessgeography_CHI2015.pdf">
@@ -123,11 +123,11 @@ You can find details that have been omitted for clarity in our paper: <a href="h
   </p>
   <img border="0" width="450" src="img/japanese-indegree-small.png" class="fancybox stacked"/>
   <p class="caption">
-      A visualization of self-focus bias in Japanese Wikipedia.
-      Countries are sized according to their <em>in-link sum</em>,
-      the total number of links in Wikipedia to articles from that country.
-      Japan is the large mass in red, and is larger than Europe, Asia, and the Americas.
-      From Hecht and Gergle, 2009.
+      Self-Focus Bias, Mapped (Hecht and Gergle, 2009): If the countries of the world were sized according to their importance as measured by the Japanese Wikipedia,
+      this is what the world would look like.
+      In every language edition we’ve examined, there is a strong tendency to view
+      the “the sum of human knowledge” as revolving around places
+      where the corresponding language is spoken.
   </p>
 </div>
 <p>
@@ -147,20 +147,22 @@ For example, when compared to other languages, English Wikipedia has more unique
 </p>
 
 <p>
-Wikipedians' geographic differences surface particularly strongly in articles about <em>places</em> such as cities, countries, and landmarks.    
-Wikipedians exhibit <em>self focus bias </em>(Hecht and Gergle, 2009); they tend to make <em>local edits</em> to articles about locations near them (Graham and Hogan 2014), and identify more relationships linking articles to places in their home countries (Hecht and Gergle, 2009). 
-Places that have weaker economies, lower literacy rates, or less broadband penetration have been shown to have substantially less content about them. The map below visualizes these differences.
+Wikipedians' geographic differences surface particularly strongly in articles about <em>places</em> such as cities, countries, and landmarks.
+Places that have weaker economies, lower literacy rates, or less broadband penetration have been shown to have substantially less content about them.
+The map of the world in black (right) visualizes these differences by showing the density of articles across the globe.
+Wikipedians also exhibit <em>self focus bias </em>(Hecht and Gergle, 2009); they tend to make <em>local edits</em> to articles about locations near them (Graham and Hogan 2014), and identify more relationships linking articles to places in their home countries (Hecht and Gergle, 2009).
+The map in light blue (right) visualizes these differences by showing how the world would look if countries were sized according to their importance in the Japanese Wikipedia.
 </p>
 <p>
-<strong>Our research studies <em>where</em> information in Wikipedia comes from</strong> , which we call <strong>geoprovenance</strong>. 
+<strong>Our research studies <em>where</em> information in Wikipedia comes from</strong>, a characteristic we call <strong>geoprovenance</strong>.
 We focus on the four million Wikipedia articles about places that, along with information such as TripAdvisor reviews and geotagged flickr images, constitutes the rising class of information renowned geographer Michael Goodchild calls    <em>volunteered geographic information</em> (VGI). 
-As some have argued [Kitchin and Dodge, 2011; Graham et al., 2013], VGI does not just represent the world, but also becomes part of the world.
+As some have argued (Kitchin and Dodge, 2011; Graham et al., 2013), VGI does not just represent the world, but also becomes part of the world.
 It forms layers of code and information that augment everyday activities: it shapes where we go, what we do, and how we perceive and understand the world that we live in. 
 The study of geoprovenance, which we undertake here, helps us understand the perspectives, gaps, and inequalities in VGI repositories.
 </p>
 <h2>Measuring Geoprovenance</h2>
 <p>
-We studied two lenses for geoprovenance. 
+We study geoprovenance through two lenses.
 The first, <strong><em>editor geoprovenance</em></strong>, examines the relationship between the locations of Wikipedia editors and the geographic articles they edit. 
 It asks, for example, “What countries do edits to articles about Iran comes from?” 
 To analyze editor geoprovenance, we studied over five million edits to 39 different language Wikipedias. 
@@ -176,16 +178,17 @@ Each edit was    <a href="http://www.ipinfodb.com/my_ip_location.php">geolocated
 </div>
 <p>
 Our second lens, <strong><em>source geoprovenance</em></strong>, studies the citations added to Wikipedia articles. 
-It considers the relationship between the location of cited sources and the geographic articles the sources describe. For example, it answers “What countries publish the sources cited in articles about Iran?” 
+It considers the relationship between the location of geographic articles and the location of the source publishers cited in those articles.
+For example, it answers “What countries publish the sources cited in articles about Iran?”
 Every source cited in Wikipedia is produced by individuals, organisations and groups based in particular geographic regions. 
-The source is selected by Wikipedia editors as a <a href="http://en.wikipedia.org/wiki/Wikipedia:Identifying_reliable_sources">reliable source </a>supporting informational claims in articles. 
+The source is selected by Wikipedia editors as a <a href="http://en.wikipedia.org/wiki/Wikipedia:Identifying_reliable_sources">reliable source</a> that supports informational claims in articles.
 Sources can therefore serve as an important signal about where (geographically) Wikipedia information comes from.
 </p>
 <p>
 To analyze source geoprovenance, we inferred the home publisher of all 31 million URLs cited in 79 language editions of Wikipedia. 
-Since no definitive listing exists for the publisher country associated with each URL, we needed to predict the publisher country. 
-To illustrate our approach, consider consider the URL <a href="http://whc.unesco.org/en/list/1293">http://whc.unesco.org/en/list/1293</a>, a page created by the global non-governmental
-    organization Unesco that describes the Saudi Arabian <a>archeological site</a>"Madâin Sâlih." 
+Since no definitive data maps a URL to the country that published it, we needed to infer the publisher country.
+To illustrate our approach, consider consider the URL <a href="http://whc.unesco.org/en/list/1293">http://whc.unesco.org/en/list/1293</a>.
+This page, created by the global non-governmental organization Unesco, describes the Saudi Arabian <a>archeological site</a>"Madâin Sâlih."
 This URL is cited by Wikipedia articles about Madâin Sâlih in 20 different languages, ranging from <a href="https://en.wikipedia.org/wiki/Mada%27in_Saleh">English</a> to <a href="https://ar.wikipedia.org/wiki/%D9%85%D8%AF%D8%A7%D8%A6%D9%86_%D8%B5%D8%A7%D9%84%D8%AD">Arabic</a> to    <a href="https://ca.wikipedia.org/wiki/Mad%C3%A0%C3%AFn_S%C3%A0lih">Catalan</a>
 </p>
 <p>
@@ -195,19 +198,20 @@ If we were to examine the webpage itself we would find that it is written in Eng
 Geocoding the web server IP address (as we did with editors) identifies the server hosting facility as France. 
 While these approaches can be sufficient for some URLs, none of them provides a definitive answer in this case. 
 To accurately predicted publisher country, we incorporated two more signals of of geoprovenance. 
-The first extracted the country of the administrative contact listed in the "    <a href="https://en.wikipedia.org/wiki/Whois">WhoIs</a>" domain name registry, a sort of phone book for domain name administrators. 
+The first extracted the country of the administrative contact listed in the "<a href="https://en.wikipedia.org/wiki/Whois">WhoIs</a>" domain name registry, a sort of phone book for domain name administrators.
 The second created a list of twenty thousand known organization home pages (<a href="http://www.unesco.org">http://www.unesco.org</a>) with their corresponding locations mined from the amazing <a href="https://www.wikidata.org/">Wikidata project</a>.
 </p>
 <p>
 A <a href="https://en.wikipedia.org/wiki/Logistic_regression">statistical combination</a> of these signals proved to be surprisingly accurate predictors.
-Some signals (e.g. TLD suffixes such as ".uk") were nearly perfect in accuracy, but did not apply to the majority of URLs. Others (the language of a web page and WhoIs records) were less accurate, but nearly always available. 
-When synthesized, the algorithm correctly predicted 91% of URLs, approaching the level of agreement between humans.
+Some signals (e.g. TLD suffixes such as ".uk") were nearly perfect in accuracy, but did not apply to the majority of URLs.
+Others (the language of a web page and WhoIs records) were less accurate, but nearly always available.
+When synthesized, the algorithm correctly predicted 91% of URLs, approaching the level of agreement between humans on our test data sets.
 </p>
 <p>
 We believe this URL geoprovenance algorithm represents an important new tool for researchers. 
 In addition to supporting analyses of the geographic diversity of viewpoints, it could be used to identify differences in how media from different countries discuss particular issues or it could track geographic flows in online media networks. 
 You can see a simplified version of our geoprovenance inference algorithm in action using our online<a>interactive demo</a>. 
-We have also published reference software implementations on    <a href="https://github.com/shilad/geo-provenance">GitHub</a>.
+We have also released reference software implementations of it on    <a href="https://github.com/shilad/geo-provenance">GitHub</a>.
 </p>
 
 <h2>
@@ -228,8 +232,7 @@ We have also published reference software implementations on    <a href="https:/
 <p>
 We value localness. 
 In the food we eat, the arts we patronize, and the businesses we frequent, we seek locals who understand and support the geographic culture they inhabit. 
-Researchers have also praised the transformative power of local contributions to VGI repositories such as Wikipedia and Yelp.
-Geographer Michael Goodchild lauded VGI as “putting mapping where it should be, which is the hands of local people who know an area well.” 
+Researchers have also praised the transformative power of local contributions to VGI repositories, a shift that places “mapping where it should be, which is the hands of local people who know an area well.”
 Consistent with this promise, people do author information about places near them. 
 Wikipedia editors tend to edit articles about places close to them [Hardy et al., 2012; Hecht and Gergle, 2010], a large proportion of Flickr photos are taken nearby photographers’ homes [Fischer, 2010], and Twitter users tend to tweet about locations near them [Cheng et al., 2010].
 </p>
@@ -237,7 +240,7 @@ Wikipedia editors tend to edit articles about places close to them [Hardy et al.
 <p>
 Many researchers see the shift in authorship from paid experts to volunteers — often described as public-participation geographic information science [Obermeyer, 1998] — as a way to increase local geographic information production, especially among disadvantaged populations.
 While prior research has established that people contribute more VGI near them, our study maps variations in localness.
-In particular, we study whether the contours of localness adhere to or transcend the socio-economic barriers present in <a>traditional media</a>.
+In particular, <b>we study whether the contours of VGI localness adhere to or transcend the socio-economic barriers present in traditional media networks</b>.
 </p>
 <p>
 The right hand figures shows the percentage of local sources (blue) and editors (green) for articles about each country across all 79 language Wikipedias we study. 
@@ -245,7 +248,7 @@ For both sources and editors, the highest levels of localness are associated wit
 Africa and the Middle East stand out as having particularly low localness. 
 For example, many central African countries have less than 0.2% localness in both sources and editors (Chad, South Sudan, Central African Republic, the DRC). 
 These countries in sub-Saharan Africa also have per-capita GDPs below $1000 U.S. per year, among the lowest in the world.
-</p>
+<b>We encourage you to explore the interactive source localness visualizations by clicking the images to the right (in blue).</b></p>
 <div class="figure">
   <a href="http://shilad.com/geo-provenance/source_localness.html" class="fancybox"><img width="450px" src="img/source-localness-ar-fr-small.png"></a>
   <p class="caption">
@@ -280,27 +283,28 @@ For editor localness, language serves as an almost complete barrier to VGI contr
 Countries that natively speak the Wikipedia language edition (e.g. articles about Iraq for the Arabic Wikipedia) are more than five times more likely to have local content. Socio-economic barriers - in particular the number of households that have broadband access — also play an important role in editor localness.
 </p>
 <p>
-Our results indicate that when we experience the world through VGI — either online or in augmented environments – our experience is shaped by many of the historical barriers and inequalities that existed before VGI.
+<b>Our results indicate that when we experience the world through VGI — either online or in augmented environments – our experience is shaped by many of the historical barriers and inequalities that existed before VGI.</b>
 </p>
 <h2>
     Global Geoprovenance Networks
 </h2>
-<div class="figure">
-<a href="http://shilad.com/geo-provenance/source_geoprovenance.html" class="fancybox"><img width="450px" src="img/source-geoprov-en-fr-small.png"></a>
-<p class="caption">
-    The global geoprovenance network for sources cited in articles about India in the English and French Wikipedias.
-    Clicking the image will launch the interactive visualization of sources.
-</p>
-<img width="450px" src="img/editor-geoprov-en-fr-small.png" class="fancybox stacked">
-<p class="caption">
-    The global geoprovenance network for edits made to articles about India in the English and French Wikipedias.
-</p>
-</div>
+
 <p>
-The previous section studied the variation in localness. We now expanded to study patterns in both local and non-local contributions. 
-More specifically, we answer: <em>What is the worldwide geographic network of sources and editors for articles about a particular country? </em>
-For example, while the previous localness analysis answered "<em>How many of the sources cited in articles about India are published locally in India</em>?", we now look at the broader question, "<em>What is the geographic network of sources cited in articles about India</em>?"
+The previous section studied the variation in localness.
+We now expanded to study patterns in both local and non-local contributions by studying the <b>worldwide geographic network of sources and editors for articles about a particular country</b>.
+For example, while the previous localness analysis answered <em>How many of the sources cited in articles about India are published locally in India</em>?, we now look at the broader question, "<em>What is the geographic network of sources cited in articles about India</em>?"
 </p>
+          <div class="figure">
+              <a href="http://shilad.com/geo-provenance/source_geoprovenance.html" class="fancybox"><img width="450px" src="img/source-geoprov-en-fr-small.png"></a>
+              <p class="caption">
+                  The global geoprovenance network for sources cited in articles about India in the English and French Wikipedias.
+                  Clicking the image will launch the interactive visualization of sources.
+              </p>
+              <img width="450px" src="img/editor-geoprov-en-fr-small.png" class="fancybox stacked">
+              <p class="caption">
+                  The global geoprovenance network for edits made to articles about India in the English and French Wikipedias.
+              </p>
+          </div>
 <p>
 The broader geoprovenance analysis reflects many of our findings for localness. 
 Both source geoprovenance and editor geoprovenance face socioeconomic and language barriers.
@@ -308,39 +312,40 @@ As with localness, countries with a small scholarly publishing network produce s
 When combined with localness, this statistical model explains the vast majority of the variance we see.
 However, we find an additional association between the number of migrants between two countries.
 For example, if there are many migrants from India to the Germany, the model predicts that articles about India will cite more German sources and engage more German editors.
+The origins of this finding is unclear; is it migrant communities making these edits, or is migrantation a proxy for cultural overlap along a variety of dimensions such as language, religion, and politics.
+More than one underlying factor are likely leading to the association between geoprovenance and migration, and more research is necessary to unpack these effects.
 </p>
 <p>
     An example of the geoprovenance network is shown in the right hand figures.
     The figures show the global geoprovenance network for articles about India in the English and French Wikipedias.
     The source geoprovenance network (in blue) look similar between the English and French Wikipedias, and are dominated by sources in the U.S. and India.
     In the English Wikipedia, other economically strong English speaking countries (the U.K. and Australia) also contribute sources, while in the French Wikipedia, France contributes plays an important role.
-</p>
-<p>
     Once again, we see that editors (in green) are dramatically affected by language barriers.
     While in the English Wikipedia, most edits about India are local, nearly all the edits about India in the French Wikipedia come from France.
 </p>
-<h1>
+<h2>
     Moving Forward
-</h1>
+</h2>
 <p>
     This research offers the first large-scale study of the forces shaping the localness of VGI.
-    The evidence we find in support of socioeconomic barriers to VGI suggest that it may not be the equalizing panacea that
-    it has been portrayed as being.
-    Instead, VGI appears to
-    follow many of the same structural barriers to equality
-    as traditional expert-curated systems, although research
-    must determine whether the strength of these barriers
-    in VGI is different.
-    More broadly, our findings suggest that if
-    a place faces serious SES obstacles, or you read about a
-    place in a language that is not spoken in that place, you
-    are unlikely to be reading locally-produced VGI or even
-    VGI that references local sources.
+    We find socioeconomic barriers to VGI that suggest it may not be the equalizing panacea that it has been portrayed as being.
+    Instead, VGI appears to follow many of the same structural barriers to equality as traditional expert-curated systems, although research must determine whether the strength of these barriers in VGI is different.
+    More broadly, our findings suggest that <b>if a place faces serious socioeconomic obstacles, or if you read about a place in a language that is not spoken in that place, you are unlikely to be reading locally-produced VGI or even VGI that references local sources.</b>
 </p>
-<h1>
+<h2>Acknowledgements</h2>
+<p>
+    We would like to thank Dario Taraborelli and the Wikimedia
+    Foundation for helping to craft the anonymized
+    editor geoprovenance dataset. We would also like to
+    thank Matthew Zook for his advice about geocoding
+    publishers. This research was generously supported
+    by the National Science Foundation (IIS-0964697, IIS-1421655, and IIS-0808692), the John Fell Fund (Oxford
+    University), and an Amazon Web Services Research Grant.
+</p>
+<h2>
     References
-</h1>
-<ol class="references">
+</h2>
+<ol class="references col-md-7">
     <li>Cheng, Zhiyuan, James Caverlee, and Kyumin Lee. "You are where you tweet: a content-based approach to geo-locating twitter users." Proceedings of the 19th ACM international conference on Information and knowledge management. ACM, 2010.</li>
     <li>Fischer, Eric, "Locals and Tourists", 2010.</li>
     <li>Graham, Mark, and Bernie Hogan. "Uneven Openness: Barriers to MENA Representation on Wikipedia." Graham, M., and Hogan, B (2014).</li>
