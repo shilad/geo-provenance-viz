@@ -41,7 +41,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
         body {
-            padding-top: 50px;
+            padding-top: 0;
             padding-bottom: 15px;
         }
     </style>
@@ -63,32 +63,45 @@
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
-
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <ul class="nav navbar-nav">
-            <li role="presentation" class="active"><a href="index.html">Home</a></li>
-            <li role="presentation"><a href="demo.html">Inference algorithm</a></li>
-            <li role="presentation"><a href="source_localness.html">Localness visualization</a></li>
-            <li role="presentation"><a href="source_geoprovenance.html">Geoprovenance visualization</a></li>
-            <li role="presentation"><a href="geoprovenance_CHI2015.pdf">CHI 2015 paper</a></li>
-            <li role="presentation" class="share-icons">
-                <a href="http://twitter.com/share?url=URL&hashtags=geoprovenance"
-                   class="btn btn-social-icon btn-twitter fancy-share">
-                    <i class="fa fa-twitter"></i></a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=URL"
-                   class="btn btn-social-icon btn-facebook fancy-share">
-                    <i class="fa fa-facebook"></i></a>
-                <a href="https://plus.google.com/share?url=URL"
-                   class="btn btn-social-icon btn-google-plus fancy-share">
-                    <i class="fa fa-google-plus"></i></a>
-            </li>
-        </ul>
-    </div>
-</nav>
 <div class="container popout"><a href="#" target="_blank">Open in new window.</a></div>
 
 <div class="container geoprovenance">
+
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!--<a class="navbar-brand" class="active" href="index.html">Geoprovenance</a>-->
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li role="presentation" class="active"><a href="index.html">Home</a></li>
+                    <!--<li role="presentation"><a href="index.html">Home</a></li>-->
+                    <li role="presentation"><a href="demo.html">Inference alg</a></li>
+                    <li role="presentation"><a href="source_localness.html">Localness viz</a></li>
+                    <li role="presentation"><a href="source_geoprovenance.html">Geoprovenance viz</a></li>
+                    <li role="presentation"><a href="geoprovenance_CHI2015.pdf">Paper</a></li>
+                    <li role="presentation" class="share-icons">
+                        <a href="http://twitter.com/share?url=URL&hashtags=geoprovenance"
+                           class="btn btn-social-icon btn-twitter fancy-share">
+                            <i class="fa fa-twitter"></i></a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=URL"
+                           class="btn btn-social-icon btn-facebook fancy-share">
+                            <i class="fa fa-facebook"></i></a>
+                        <a href="https://plus.google.com/share?url=URL"
+                           class="btn btn-social-icon btn-google-plus fancy-share">
+                            <i class="fa fa-google-plus"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="row controls">
         <h1 class="col-md-12">
             Where does information in Wikipedia come from?
@@ -109,7 +122,7 @@ This interactive essay is a general audience adaptation of our CHI 2015 paper.
 <b>Three visualizations</b> are embedded throughout the paper (and also available in the top nav bar).
 We are <a href="https://meta.wikimedia.org/wiki/Research:Geo-aggregation_of_Wikipedia_edits">actively working</a> to anonymize and release the editor dataset and visualization.
 Until we can, the editor visualizations (shown in green) are static images.
-You can find details that have been omitted for clarity in our paper: <a href="http://www-users.cs.umn.edu/~bhecht/publications/localnessgeography_CHI2015.pdf">
+You can find details that have been omitted from this essay in our paper: <a href="http://www-users.cs.umn.edu/~bhecht/publications/localnessgeography_CHI2015.pdf">
         <em>Barriers to the Localness of Volunteered Geographic Information.</em>
     </a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;<a href="http://www.shilad.com">Shilad Sen</a>
@@ -169,7 +182,7 @@ To analyze editor geoprovenance, we studied over five million edits to 39 differ
 Each edit was    <a href="http://www.ipinfodb.com/my_ip_location.php">geolocated</a> using the editor's IP address and aggregated to preserve anonymity.
 </p>
 <div class="narrow-figure">
-    <a href="demo.html?nonav=true&url=http%3A%2F%2Fwhc.unesco.org%2Fen%2Flist%2F1293" class="fancybox"><img border="0" width="300" src="img/geoprov-alg-small.png"/></a>
+    <a href="demo.html?url=http%3A%2F%2Fwhc.unesco.org%2Fen%2Flist%2F1293" target="_blank" class="fancybox"><img border="0" width="300" src="img/geoprov-alg-small.png"/></a>
   <p class="caption">
       A demonstration of the geoprovenance inference algorithm for <a href="http://whc.unesco.org/en/list/1293">http://whc.unesco.org/en/list/1293</a>. These images are taken from our                    <a href="http://">interactive demo</a>. The top map (in blue) shows the final results, which correctly predicts France as the publisher
       country. The bottom two maps show two components of the algorithm: the countries most likely to publish English sources (in green), and the
@@ -219,7 +232,7 @@ We have also released reference software implementations of it on    <a href="ht
 </h2>
 
 <div class="narrow-figure">
-  <a href="http://shilad.com/localness/source_localness.html?nonav=true" class="fancybox"><img width="300px" src="img/overall-source-localness-small.png"></a>
+  <a href="http://shilad.com/localness/source_localness.html" target="_blank" class="fancybox"><img width="300px" src="img/overall-source-localness-small.png"></a>
   <p class="caption">
       For articles about each country, the percentage of cited sources that are local to that country.
       Clicking the image will launch the interactive visualization of sources.
@@ -250,7 +263,7 @@ For example, many central African countries have less than 0.2% localness in bot
 These countries in sub-Saharan Africa also have per-capita GDPs below $1000 U.S. per year, among the lowest in the world.
 <b>We encourage you to explore the interactive source localness visualizations by clicking the images to the right (in blue).</b></p>
 <div class="figure">
-  <a href="http://shilad.com/localness/source_localness.html?nonav=true" class="fancybox"><img width="450px" src="img/source-localness-ar-fr-small.png"></a>
+  <a href="http://shilad.com/localness/source_localness.html?regions=GN,KZ" target="_blank" class="fancybox"><img width="450px" src="img/source-localness-ar-fr-small.png"></a>
   <p class="caption">
       For articles about countries in the Middle East and North Africa region (MENA), the percentage of cited sources that are local to that country in the English and French Wikipedias.
       Clicking the image will launch the interactive visualization of sources.
@@ -295,7 +308,7 @@ We now expanded to study patterns in both local and non-local contributions by s
 For example, while the previous localness analysis answered <em>How many of the sources cited in articles about India are published locally in India</em>?, we now look at the broader question, "<em>What is the geographic network of sources cited in articles about India</em>?"
 </p>
           <div class="figure">
-              <a href="http://shilad.com/localness/source_geoprovenance.html?nonav=true" class="fancybox"><img width="450px" src="img/source-geoprov-en-fr-small.png"></a>
+              <a href="http://shilad.com/localness/source_geoprovenance.html" target="_blank" class="fancybox"><img width="450px" src="img/source-geoprov-en-fr-small.png"></a>
               <p class="caption">
                   The global geoprovenance network for sources cited in articles about India in the English and French Wikipedias.
                   Clicking the image will launch the interactive visualization of sources.
@@ -385,7 +398,19 @@ More than one underlying factor are likely leading to the association between ge
             });
             var w = $(window).width();
             var h = $(window).height();
-            var l = $("a.fancybox").fancybox({type: 'iframe', width: (w-50), height: (h-100)});
+
+            // Rewrite the hrefs and make them overlays
+            if (w >= 1100) {
+                var l = $("a.fancybox")
+                        .attr('href', function (i, href) {
+                            if (href.indexOf('?') >= 0) {
+                                return href + '&nonav=true';
+                            } else {
+                                return href + '?nonav=true';
+                            }
+                        })
+                        .fancybox({type: 'iframe', width: (w-50), height: (h-100)});
+            }
         });
 </script>
 

@@ -102,7 +102,7 @@ GP.assignMapColor = function(v) {
     return color;
 };
 
-GP.update_map = function(lang, article_iso) {
+GP.update_map = function(lang, article_iso, regions) {
     $("span.langName").text((lang == 'all') ? '' : ('the ' + GP_LANGS[lang]));
     if (article_iso == 'all') {
         $(".countryCaption").hide(0);
@@ -146,6 +146,7 @@ GP.update_map = function(lang, article_iso) {
                 values: colors
             }]
         },
+        zoomOnScroll: false,
         onRegionTipShow   : function(e, el, code){
             var name = el.html();
             var examples = GP_ITEMIZED_DATA.domains[code.toLowerCase()];
@@ -214,11 +215,10 @@ GP.update_map = function(lang, article_iso) {
     }
     var map = canvas.empty().vectorMap(map_params);
     canvas.data('clicked', false);
-
-    // TODO: click on canvas resets map.
-    // The only way I can see to handle a
-    //canvas.find(".jvectormap-container > svg").bind('click', function() {
-    //});
+    if (regions) {
+        var mapObj = map.vectorMap('get', 'mapObject');
+        mapObj.setFocus({ regions: regions.split(',')});
+    }
 
     return false;
 };
@@ -342,7 +342,7 @@ GP.onUrlChange = function() {
             'data/' + GP.entity + '-' + GP.mode + '/' + params.lang + '/' + params.country + '.js',
             function () {
                 $(".map-wrapper").spin(false);
-                GP.update_map(params.lang, params.country);
+                GP.update_map(params.lang, params.country, params.regions);
                 GP.update_itemized_lists(params.lang, params.country);
             });
 
@@ -372,6 +372,8 @@ GP.updateUrl = function(changed_params) {
     var location = GP.location();
     var current_params = GP.url2QueryObj(location.href);
     var new_params = $.extend({}, current_params, changed_params);
+
+    delete new_params['regions'];   // hack... figure out how to handle regions better
 
     for (var key in GP.PARAM_DEFAULTS) {
         if (new_params[key] == GP.PARAM_DEFAULTS[key]) {
