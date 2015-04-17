@@ -103,7 +103,6 @@ GP.LogisticInferrer = function (url, onResult, onMessage, onError) {
 
     var receivedResult = function(name, result) {
         if (result.length) {
-            console.log('here ' + result[0]);
             dists[result[0]] = result[1];
         } else {
             dists[name] = result;
@@ -368,7 +367,17 @@ GP.getDomain = function(url) {
 
 GP.getRegisteredDomain = function(url) {
     var domain = GP.getDomain(url);
-    return RegDomain.getRegisteredDomain(domain).toLowerCase();
+    var res = RegDomain.getRegisteredDomain(domain);
+    // last ditch effort to get the domain.
+    if (!res) {
+        var parts = url.split('.');
+        if (parts.length < 2) {
+            return undefined;
+        } else {
+            res = parts[parts.length - 2] + '.' + parts[parts.length - 1];
+        }
+    }
+    return res.toLowerCase();
 };
 
 GP.countryToDist = function (country) {

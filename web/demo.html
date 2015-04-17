@@ -385,6 +385,13 @@
         $(".queryform form").submit(function () {
             $(".alg pre").html('');
             var url = $(this).find("input").val().trim();
+            if (!url || url.indexOf('.') < 0) {
+                alert('invalid url');
+                return false;
+            }
+            if (url.length < 4 || url.substring(0, 4) != 'http') {
+                url = 'http://' + url;
+            }
             onMessage(['final','testing inferrence of url ' + url]);
             onMessage(['final','domain is ' + GP.getDomain(url)]);
             onMessage(['final', 'registered domain is ' + GP.getRegisteredDomain(url)]);
